@@ -39,6 +39,12 @@ module.exports = {
     path: resolve(__dirname, 'dist'),
     // publicPath: '/'
   },
+  resolve: {
+    extensions: ['.js', '.vue', '.json', '.css', '.less'],
+    alias: {
+      '@': resolve('src'),
+    }
+  },
   module: {
     rules: [
       { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
@@ -65,5 +71,5 @@ module.exports = {
     new CleanWebpackPlugin(),
     new htmlPlugin(htmlPluginConfig),
     new VueLoaderPlugin()
-  ]
+  ],
 }

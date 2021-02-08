@@ -1,0 +1,12 @@
+{
+  "editor.formatOnSave": true,
+  "eslint.alwaysShowStatus": true,
+  "csscomb.formatOnSave": true,
+  "files.associations": {
+    "*.vue": "vue"
+  },
+  "editor.tabSize": 2,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

@@ -1,14 +1,18 @@
 <template>
-  <div class="app"></div>
+  <div class="app">
+    <router-view />
+  </div>
 </template>
 
 <script>
 export default {
   name: "app",
-  data() {
-    return {};
-  },
 };
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less">
+@import "@/assets/styles/core/normalize";
+.app {
+  padding: 0 60px;
+}
+</style>
