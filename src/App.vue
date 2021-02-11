@@ -11,8 +11,13 @@ export default {
 </script>
 
 <style lang="less">
-@import "@/assets/styles/core/normalize";
+@import "Style/core/normalize";
+@import "Style/color";
+
 .app {
-  padding: 0 60px;
+  // padding: 0 60px;
+}
+#nprogress .bar {
+  background: @color-primary; //进度条颜色
 }
 </style>

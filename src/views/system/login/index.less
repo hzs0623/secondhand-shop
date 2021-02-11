@@ -1,0 +1,107 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  background: -moz-linear-gradient(top, #88b1d1 0%, #ffffff 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#88b1d1), color-stop(100%,#ffffff));
+  background: -webkit-linear-gradient(top, #88b1d1 0%,#ffffff 100%);
+  background: -o-linear-gradient(top, #88b1d1 0%,#ffffff 100%);
+  background: -ms-linear-gradient(top, #88b1d1 0%,#ffffff 100%);
+  background: linear-gradient(to bottom, #88b1d1 0%,#ffffff 100%);
+  .content{
+    width: 70%;
+    height: 500px;
+    background: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    border-radius: 10px;
+    overflow: hidden;
+    .img{
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #ecebfd;
+      overflow: hidden;
+    }
+    .info{
+      flex: 1;
+      margin-top: 40px;
+      .title{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 26px;
+        .text{
+          margin: 0 10px;
+        }
+        span{
+          display: block;
+          height: 2px;
+          width: 100px;
+        }
+        .left {
+          background: linear-gradient(to left, #111, #fff); 
+        }
+        .right{
+          background: linear-gradient(to right, #111, #fff); 
+        }
+      }
+
+      .user {
+        padding:40px 80px;
+       
+        .user-warp{
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 40px;
+          span {
+            font-size: 18px;
+            margin-bottom: 6px;
+          }
+          input{
+            padding-left: 8px;
+            background:none; 
+            outline:none;
+            border:none; 
+            -web-kit-appearance:none;
+            -moz-appearance: none;
+            height:2.7em;
+            font-size: 16px;
+            border-bottom:1px solid #c8cccf;
+          }
+        }
+        
+        .user-login{
+          padding-top: 20px;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          .btn{
+            cursor:pointer;
+            width: 60%;
+            height: 2.7em;
+            text-align: center;
+            line-height: 2.7em;
+            background: #2c71f2;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 25px;
+          }
+        }
+
+      
+      }
+
+      .rigister{
+        display: flex;
+        justify-content: flex-end;
+        padding-right: 40px;
+      }
+    }
+  }
+}

@@ -7,6 +7,7 @@ const frameIn = [
   {
     path: '/',
     component: container, // 布局
+    redirect: '/index',
     children: [
       {
         path: 'index',
@@ -23,11 +24,18 @@ const frameOut = [
   // 登录
   {
     path: '/login',
-    name: '登录',
-    // meta: {
-    //   freeAuth: true
-    // },
-    component: _import('login/index.vue')
+    name: 'Login',
+    component: _import('system/login')
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: _import('system/register')
+  },
+  {
+    path: '/404',
+    name: 'Error',
+    component: _import('system/error')
   }
 ];
 
