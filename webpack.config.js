@@ -16,15 +16,6 @@ const devServer = {
   hot: true,
   host: '127.0.0.1',
   open: true,
-  proxy: {
-    '/api': {
-      target: 'http://127.0.0.1:3333', // 请求地址
-      changeOrigin: true,
-      pathRewrite: {
-        '^/api': ''
-      }
-    }
-  }
 }
 
 module.exports = {

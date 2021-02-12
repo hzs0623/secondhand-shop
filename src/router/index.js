@@ -16,8 +16,11 @@ const token = store.getters['global/token'];
 // 前置守卫
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启进度条
-  if (to.name !== 'Login' && !token) {
+  const map = ['Login', 'Index', 'Main', 'Register'];
+
+  if (!token && map.indexOf(to.name) === -1) {
     next({ name: 'Login' });
+    NProgress.done(); // 关闭进度条
   } else if (!to.matched.length) {
     next('/404') // 
   } else {

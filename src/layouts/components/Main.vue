@@ -12,4 +12,8 @@ export default {
   },
 };
 </script>
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.main-page {
+  padding: 0 60px;
+}
+</style>

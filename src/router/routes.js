@@ -6,12 +6,13 @@ import container from '@/layouts/container.vue';
 const frameIn = [
   {
     path: '/',
+    name: 'Index',
     component: container, // 布局
     redirect: '/index',
     children: [
       {
         path: 'index',
-        name: "首页",
+        name: "Main",
         component: _import('shop/index')
       },
       // ...waybillMenu,
@@ -38,6 +39,5 @@ const frameOut = [
     component: _import('system/error')
   }
 ];
-
 
 export default [...frameIn, ...frameOut];

@@ -23,6 +23,7 @@ export default {
 </script>
 <style lang="less" scoped>
 .header-comp {
+  padding: 0 60px;
   height: 50px;
   width: 100%;
   background: #fff;

@@ -29,7 +29,7 @@
           </div>
 
           <div class="user-login">
-            <div class="btn">注册</div>
+            <div class="btn" @click="handleRegister">注册</div>
           </div>
         </div>
 
@@ -43,7 +43,8 @@
 </template>
 
 <script>
-import imgLogin from "@/assets/images/login.png";
+import imgLogin from "@/assets/images/register.png";
+import { register, userEdit } from "@/api/user";
 export default {
   name: "register-page",
   data() {
@@ -52,6 +53,20 @@ export default {
     };
   },
   methods: {
+    async handleRegister() {
+      // const res = await register({
+      //   username: "hzs",
+      //   password: "123456",
+      // });
+      const res = await userEdit({
+        uid: 2,
+        password: "111111",
+        phone: 17723534656,
+        gender: 1,
+        sno: 179110110,
+      });
+      console.log(res);
+    },
     handleLogin() {
       window.location.replace("/#/login");
     },
