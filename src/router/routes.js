@@ -15,7 +15,11 @@ const frameIn = [
         name: "Main",
         component: _import('main/index')
       },
-      // ...waybillMenu,
+      {
+        path: 'shop/details',
+        name: 'details',
+        component: _import('shopDetails')
+      }
     ]
   }
 ];

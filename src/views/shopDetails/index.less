@@ -1,0 +1,118 @@
+@import "Style/color";
+
+.shop-page{
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  .content-card{
+    margin-top: 40px;
+    width: 800px;
+    box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+    .content{
+      margin-top: 40px;
+      display: flex;
+      height: 80%;
+      .shop-img{
+        display: flex;
+        align-items: center;
+        width: 50%;
+        justify-content: center;
+        img{
+          height: 300px;
+          width: 300px;
+          object-fit: cover;
+        }
+      }
+      ul{
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          margin-left: 30px;
+          li{
+            padding: 10px 0;
+            span{
+              font-weight: 600;
+              font-size: 18px;
+              color: #000;
+            }
+
+            &.price{
+              color: red;
+              font-weight: 500;
+              font-size: 16px;
+            }
+          }
+        }
+    }
+
+    .add-shop{
+      margin: 40px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .btn{
+        width: 200px;
+        height: 40px;
+        background: @color-primary;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px;
+        cursor: pointer;
+        &:hover{
+          opacity: .8;
+        }
+      }
+    }
+   
+  }
+
+  .shop-message{
+    margin: 40px 0;
+    width: 800px;
+    .title{
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      color: @color-primary;
+    }
+
+    .message-text, .add-message{
+      margin-top: 20px;
+    }
+
+    ul {
+      margin-top: 10px;
+      color: #666;
+      li{
+        padding: 20px;
+        box-shadow: 0 10px 12px 0 rgb(0 0 0 / 10%);
+        .user-name{
+          display: flex;
+          justify-content: space-between;
+          span{
+            padding-left: 10px;
+            cursor: pointer;
+            &:hover{
+              color:@color-primary;
+            }
+          }
+        }
+        .text{
+          margin-top: 10px;
+          padding-left: 40px;
+          color: #000;
+        }
+      }
+    }
+    .add-message {
+      width: 100%;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+}

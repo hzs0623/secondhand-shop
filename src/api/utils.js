@@ -2,6 +2,9 @@ import store from "@/store";
 import router from "@/router";
 import ElementUI from 'element-ui';
 import { loadingState } from "@/libs/loading";
+import { getToken } from "@/utils";
+
+let token = getToken().token;
 
 // 记录和显示错误
 export function errorLog(error) {
@@ -24,7 +27,7 @@ export const handleRequest = (config) => {
   const { method, params = {}, headers = {}, loading = true } = config;
   loading && loadingState(loading);
   try {
-    const authtoken = store.getters['global/token'];
+    const authtoken = store.getters['global/token'] || token;
     if (method === 'get') {
       config.params = {
         ...params,
@@ -50,6 +53,7 @@ export const handleResponse = (response) => {
     case '1001':
       return data;
     case '1005':  // 身份有问题登陆
+      token = '';
       store.dispatch('/global/setUserInfo', {
         token: '',
         username: ''

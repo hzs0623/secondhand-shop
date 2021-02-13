@@ -4,6 +4,7 @@ import routes from './routes';
 import NProgress from "nprogress"; // 进度条
 import "nprogress/nprogress.css";
 import store from "@/store";
+import { getToken } from '@/utils';
 
 Vue.use(VueRouter);
 
@@ -11,16 +12,19 @@ const router = new VueRouter({
   routes
 });
 
+const curToken = getToken().token;
+
 // 前置守卫
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启进度条
-  const token = store.getters['global/token'];
   const map = ['Login', 'Index', 'Main', 'Register'];
-  if (!token && map.indexOf(to.name) === -1) {
+  const token = store.getters['global/token'] || curToken;
+  if (token && !to.matched.length) {
+    next('/404');
+    NProgress.done(); // 关闭进度条
+  } else if (!token && map.indexOf(to.name) === -1) {
     next({ name: 'Login' });
     NProgress.done(); // 关闭进度条
-  } else if (!to.matched.length) {
-    next('/404')
   } else {
     next();
   }

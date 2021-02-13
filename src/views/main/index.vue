@@ -3,104 +3,70 @@
     <div class="shop-item">
       <shop-item
         class="item"
-        v-for="item in shopList"
-        :key="item.title"
+        v-for="item in list"
+        :key="item.id"
         :shop="item"
         @info="handleDetails"
       />
     </div>
+
+    <Page
+      :total="total"
+      :pageSize="pageSize"
+      :curPage="curPage"
+      @handleChange="handlePage"
+      @handleSizeChange="handleSizeChange"
+    />
   </div>
 </template>
 
 <script>
 import ShopItem from "@/components/ShopItem";
-import { mapActions } from "vuex";
-import { getToken } from "@/utils";
+import Page from "@/components/common/Page";
+import { getShopList } from "@/api/shop";
 
 export default {
   name: "main-shop-page",
   data() {
     return {
-      shopList: [
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用智能静音扫地机器人电池 家用电器充电清洁扫地机",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用智能静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-        {
-          image:
-            "https://cbu01.alicdn.com/img/ibank/2019/578/545/12498545875_1724752818.220x220.jpg?_=2020",
-          title: "厂家直供家用静音扫地机器人电池 ",
-          price: 1.4,
-          level: 9,
-          browse_num: 999,
-        },
-      ],
+      list: [],
+      total: 0,
+      pageSize: 10,
+      curPage: 1,
     };
   },
   components: {
     ShopItem,
+    Page,
   },
   methods: {
-    ...mapActions("global", ["setUserInfo"]),
     getInit() {
-      const res = getToken();
-      this.setUserInfo(res);
+      this.getList();
+    },
+    async getList() {
+      const res = await getShopList({
+        pageSize: this.pageSize,
+        curPage: this.curPage,
+      });
+      const { list = [], total = 0 } = res || {};
+      this.list = list;
+      this.total = total;
     },
     handleDetails(item) {
-      console.log(item);
+      this.$router.push({
+        path: "/shop/details",
+        query: {
+          id: item.id,
+        },
+      });
+    },
+    handlePage(page) {
+      this.curPage = page;
+      this.getList();
+    },
+    handleSizeChange(size) {
+      this.pageSize = size;
+      this.getList();
     },
   },
   created() {

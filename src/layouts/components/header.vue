@@ -16,26 +16,38 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
 import User from "./userNav";
+import { getToken } from "@/utils";
+import { mapActions } from "vuex";
+import { getMap } from "@/api/init";
 
 export default {
   name: "header-comp",
   data() {
     return {
       val: "",
+      user: {},
     };
   },
   components: {
     User,
   },
-  computed: {
-    ...mapState("global", ["user"]),
-  },
   methods: {
-    onSkip(url) {
-      window.location.replace(url);
+    ...mapActions("global", ["setUserInfo", "setMapData"]),
+    async getInit() {
+      const data = getToken();
+      this.setUserInfo(data);
+      const res = await getMap();
+      this.setMapData(res);
+      this.user = data;
     },
+    onSkip(url) {
+      // window.location.replace(url);
+      this.$router.push(url);
+    },
+  },
+  mounted() {
+    this.getInit();
   },
 };
 </script>
@@ -43,7 +55,7 @@ export default {
 .header-comp {
   padding: 0 60px;
   height: 50px;
-  width: 100%;
+  width: calc(100% - 120px);
   background: #fff;
   border-bottom: 1px solid #ccc;
   display: flex;

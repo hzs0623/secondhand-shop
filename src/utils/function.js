@@ -5,6 +5,6 @@ export function getToken() {
     const obj = JSON.parse(window.localStorage.getItem(pro_token)) || {};
     return obj;
   } catch (e) {
-    console.log(e);
+    return {}
   }
 }

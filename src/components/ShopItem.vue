@@ -8,6 +8,7 @@
         <div class="title">{{ shop.title }}</div>
         <div class="tag_warp">
           <div class="sdby">{{ shop.level }}成新</div>
+          <div class="sdby">{{ sort_map[shop.sort] }}</div>
         </div>
         <div class="price">
           <span>¥{{ shop.price }}</span>
@@ -19,6 +20,8 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
   name: "shop-item-page",
   props: {
@@ -27,8 +30,8 @@ export default {
       default: () => {},
     },
   },
-  data() {
-    return {};
+  computed: {
+    ...mapGetters("global", ["sort_map"]),
   },
   methods: {
     handleShop() {
@@ -37,22 +40,18 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 .shop-item-page {
   .box-container {
     width: 220px;
     overflow: hidden;
     cursor: pointer;
-    box-sizing: border-box;
     &:hover {
-      border: 1px solid #589ef8;
       .shop-img {
         img {
           transform: scale(1.2);
         }
-      }
-      .shop-info {
-        border: none;
       }
     }
     .shop-img {

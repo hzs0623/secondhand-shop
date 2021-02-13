@@ -1,8 +1,9 @@
 import request from '@/api';
 
-export const getShopList = (params) => {
+// 获取map值
+export const getMap = (params) => {
   return request({
-    url: '/shop/list',
+    url: '/init/map',
     method: 'get',
     params,
   })
