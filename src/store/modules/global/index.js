@@ -1,11 +1,11 @@
 import { SETUSREINFO } from './types';
-import { pro_token } from '@/utils/var';
 
 const state = {
   user: {
     token: "",
-    username: ""
+    user: ""
   },  // 用户信息
+  globalLoading: false
 };
 
 const actions = {
@@ -16,14 +16,12 @@ const actions = {
 };
 
 const mutations = {
-  SETUSREINFO(state, payload) {
-    const { user, token } = payload || {};
-    localStorage.setItem(pro_token, token);
-    state.user = {
-      username: user,
-      token
-    }
-  }
+  SETUSREINFO(state, payload = {}) {
+    state.user = payload;
+  },
+  setLoading(state, payload) {
+    state.globalLoading = payload;
+  },
 };
 
 const getters = {

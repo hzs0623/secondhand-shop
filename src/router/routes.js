@@ -13,7 +13,7 @@ const frameIn = [
       {
         path: 'index',
         name: "Main",
-        component: _import('shop/index')
+        component: _import('main/index')
       },
       // ...waybillMenu,
     ]

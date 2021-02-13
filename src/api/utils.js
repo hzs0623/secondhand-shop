@@ -1,7 +1,7 @@
 import store from "@/store";
 import router from "@/router";
 import ElementUI from 'element-ui';
-import { pro_token } from '@/utils';
+import { loadingState } from "@/libs/loading";
 
 // 记录和显示错误
 export function errorLog(error) {
@@ -21,30 +21,35 @@ function errorCreate(msg) {
 }
 
 export const handleRequest = (config) => {
-  const { method, params = {}, headers = {} } = config;
-  const authtoken = store.state.global.user.token || localStorage.getItem(pro_token);
-
-  if (method === 'get') {
-    config.params = {
-      ...params,
-      _t: Date.now()
+  const { method, params = {}, headers = {}, loading = true } = config;
+  loading && loadingState(loading);
+  try {
+    const authtoken = store.getters['global/token'];
+    if (method === 'get') {
+      config.params = {
+        ...params,
+        _t: Date.now()
+      }
     }
-  }
-  config.headers = {
-    ...headers,
-    authtoken
-  }
+    config.headers = {
+      ...headers,
+      authtoken
+    }
 
-  return config;
+    return config;
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export const handleResponse = (response) => {
   const { config, data: axiosData } = response;
+  loadingState(false); // 关闭loading
   const { code, msg, data = {} } = axiosData;
   switch (`${code}`) {
     case '1001':
       return data;
-    case '1005':  // 需要登陆
+    case '1005':  // 身份有问题登陆
       store.dispatch('/global/setUserInfo', {
         token: '',
         username: ''

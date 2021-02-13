@@ -16,16 +16,25 @@
           <!-- 用户名 -->
           <div class="user-warp">
             <span>用户名</span>
-            <input type="text" placeholder="请输入注册用户名" />
+            <input type="text" v-model="form.username" placeholder="请输入注册用户名" />
           </div>
           <!-- 密码 -->
           <div class="user-warp">
             <span>密码</span>
-            <input placeholder="设置你账号的登陆密码" type="password" />
+            <input
+              v-model="form.password"
+              placeholder="设置你账号的登陆密码"
+              type="password"
+            />
           </div>
           <div class="user-warp">
             <span>确认密码</span>
-            <input placeholder="再次输入密码" type="password" />
+            <input
+              @keypress.enter="handleRegister"
+              placeholder="再次输入密码"
+              type="password"
+              v-model="passwords"
+            />
           </div>
 
           <div class="user-login">
@@ -45,27 +54,32 @@
 <script>
 import imgLogin from "@/assets/images/register.png";
 import { register, userEdit } from "@/api/user";
+import format from "../mixins";
+
 export default {
   name: "register-page",
+  mixins: [format],
   data() {
     return {
       imgLogin,
+      form: {
+        username: "",
+        password: "",
+      },
+      passwords: "",
     };
   },
   methods: {
     async handleRegister() {
-      // const res = await register({
-      //   username: "hzs",
-      //   password: "123456",
-      // });
-      const res = await userEdit({
-        uid: 2,
-        password: "111111",
-        phone: 17723534656,
-        gender: 1,
-        sno: 179110110,
-      });
-      console.log(res);
+      if (!this.formValid(this.form)) return;
+      if (!this.passwords.trim() || this.passwords !== this.form.password) {
+        this.$message.warning("两次密码不一致");
+        return;
+      }
+      const res = await register(this.form);
+      this.$message.success("注册成功");
+      // 跳转到登陆界面
+      this.handleLogin();
     },
     handleLogin() {
       window.location.replace("/#/login");

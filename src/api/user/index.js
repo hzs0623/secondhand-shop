@@ -23,3 +23,11 @@ export const userEdit = (data) => {
     data
   })
 }
+
+export const userInfo = (params) => {
+  return request({
+    url: '/user/find',
+    method: 'get',
+    params
+  })
+}

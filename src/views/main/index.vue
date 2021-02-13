@@ -14,6 +14,9 @@
 
 <script>
 import ShopItem from "@/components/ShopItem";
+import { mapActions } from "vuex";
+import { getToken } from "@/utils";
+
 export default {
   name: "main-shop-page",
   data() {
@@ -91,11 +94,18 @@ export default {
     ShopItem,
   },
   methods: {
+    ...mapActions("global", ["setUserInfo"]),
+    getInit() {
+      const res = getToken();
+      this.setUserInfo(res);
+    },
     handleDetails(item) {
       console.log(item);
     },
   },
-  created() {},
+  created() {
+    this.getInit();
+  },
 };
 </script>
 <style lang="less">

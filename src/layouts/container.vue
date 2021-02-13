@@ -17,3 +17,10 @@ export default {
   },
 };
 </script>
+
+<style lang="less">
+.layout-container {
+  overflow: hidden;
+  width: 100%;
+}
+</style>

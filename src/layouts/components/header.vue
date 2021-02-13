@@ -1,15 +1,24 @@
 <template>
   <div class="header-comp">
-    <div class="hearder-log">首页</div>
+    <div class="hearder-log" @click="onSkip('/')">首页</div>
     <div class="hearder-search">
       <input class="input" placeholder="请输入搜索内容🔍" type="text" v-model="val" />
       <div class="btn"><i class="el-icon-search"></i></div>
     </div>
-    <div class="hearder-login">登陆/注册</div>
+    <div class="hearder-login">
+      <User v-if="user && user.user" :user="user" />
+      <div v-else>
+        <el-link @click="onSkip('/#/login')">登陆</el-link>
+        <el-link @click="onSkip('/#/register')">注册</el-link>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+import User from "./userNav";
+
 export default {
   name: "header-comp",
   data() {
@@ -17,8 +26,17 @@ export default {
       val: "",
     };
   },
-  methods: {},
-  created() {},
+  components: {
+    User,
+  },
+  computed: {
+    ...mapState("global", ["user"]),
+  },
+  methods: {
+    onSkip(url) {
+      window.location.replace(url);
+    },
+  },
 };
 </script>
 <style lang="less" scoped>

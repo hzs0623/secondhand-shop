@@ -21,7 +21,12 @@
           <!-- 密码 -->
           <div class="user-warp">
             <span>密码</span>
-            <input placeholder="请输入密码" v-model="form.password" type="password" />
+            <input
+              @keypress.enter="onLogin"
+              placeholder="请输入密码"
+              v-model="form.password"
+              type="password"
+            />
           </div>
 
           <div class="user-login">
@@ -41,37 +46,33 @@
 <script>
 import imgLogin from "@/assets/images/login.png";
 import { login } from "@/api/user";
-import { mapActions } from "vuex";
-import { getShopList } from "@/api/shopList";
+import { pro_token } from "@/utils";
+import format from "../mixins";
 
 export default {
   name: "login-page",
+  mixins: [format],
   data() {
     return {
       imgLogin,
       form: {
-        username: "daes",
+        username: "huangzesi",
         password: "123456",
       },
     };
   },
   methods: {
-    ...mapActions("global", ["setUserInfo"]),
     handleRegister() {
       window.location.replace("/#/register");
-      // this.getList();
-    },
-    async getList() {
-      const res = await getShopList({
-        pageSize: 10,
-        curPage: 1,
-      });
-      console.log(res);
     },
     // 登陆
     async onLogin() {
+      if (!this.formValid(this.form)) return;
       const res = await login(this.form);
-      this.setUserInfo(res);
+      this.$message.success("登陆成功！");
+      // 存入本地
+      localStorage.setItem(pro_token, JSON.stringify(res));
+      this.$router.replace("/");
     },
   },
 };

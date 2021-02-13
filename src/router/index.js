@@ -11,18 +11,16 @@ const router = new VueRouter({
   routes
 });
 
-const token = store.getters['global/token'];
-
 // 前置守卫
 router.beforeEach((to, from, next) => {
   NProgress.start(); // 开启进度条
+  const token = store.getters['global/token'];
   const map = ['Login', 'Index', 'Main', 'Register'];
-
   if (!token && map.indexOf(to.name) === -1) {
     next({ name: 'Login' });
     NProgress.done(); // 关闭进度条
   } else if (!to.matched.length) {
-    next('/404') // 
+    next('/404')
   } else {
     next();
   }
