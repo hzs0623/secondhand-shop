@@ -19,6 +19,21 @@ const frameIn = [
         path: 'shop/details',
         name: 'details',
         component: _import('shopDetails')
+      },
+      {
+        path: 'publish/shop',
+        name: 'publish',
+        component: _import('publish')
+      },
+      {
+        path: 'ask/buy', // 求购商城
+        name: 'askBuy',
+        component: _import('askBuy')
+      },
+      {
+        path: 'my/shoping',
+        name: 'shopCart',
+        component: _import('myShop')
       }
     ]
   }

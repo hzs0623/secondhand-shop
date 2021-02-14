@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { handleResponse, handleRequest } from './utils';
+import { apiUrl } from '@/utils/var';
 
 
 // 创建一个 axios 实例
 const service = axios.create({
-  baseURL: 'http://127.0.0.1:3333',
+  baseURL: apiUrl,
 });
 
 // 请求拦截器

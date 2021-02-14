@@ -15,5 +15,6 @@ export default {
 <style lang="less" scoped>
 .main-page {
   padding: 0 60px;
+  margin-bottom: 40px;
 }
 </style>

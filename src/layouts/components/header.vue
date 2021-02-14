@@ -1,6 +1,18 @@
 <template>
   <div class="header-comp">
-    <div class="hearder-log" @click="onSkip('/')">首页</div>
+    <div class="hearder-log">
+      <el-menu
+        :default-active="activeIndex"
+        mode="horizontal"
+        @select="handleSelect"
+        text-color="#9fc4f9"
+        active-text-color="#689df1"
+      >
+        <el-menu-item :index="key" v-for="(item, key) in menuMap" :key="key">{{
+          item
+        }}</el-menu-item>
+      </el-menu>
+    </div>
     <div class="hearder-search">
       <input class="input" placeholder="请输入搜索内容🔍" type="text" v-model="val" />
       <div class="btn"><i class="el-icon-search"></i></div>
@@ -21,12 +33,26 @@ import { getToken } from "@/utils";
 import { mapActions } from "vuex";
 import { getMap } from "@/api/init";
 
+const menuConfig = {
+  1: "/index",
+  2: "/ask/buy",
+  3: "/publish/shop",
+  4: "/my/shoping",
+};
 export default {
   name: "header-comp",
   data() {
     return {
       val: "",
       user: {},
+      menuMap: {
+        1: "首页",
+        2: "求购商城",
+        3: "发布闲置",
+        4: "我发布的商品",
+      },
+      menuConfig,
+      activeIndex: this.getMenuIndex(),
     };
   },
   components: {
@@ -36,14 +62,28 @@ export default {
     ...mapActions("global", ["setUserInfo", "setMapData"]),
     async getInit() {
       const data = getToken();
-      this.setUserInfo(data);
+      this.setUserInfo(data); // 个人信息
       const res = await getMap();
-      this.setMapData(res);
+      this.setMapData(res); // 映射map
       this.user = data;
     },
+    getMenuIndex() {
+      let i = "1";
+      for (let key in menuConfig) {
+        const curPath = menuConfig[key];
+        if (curPath == this.$route.path) {
+          i = key;
+        }
+      }
+      return i;
+    },
     onSkip(url) {
-      // window.location.replace(url);
-      this.$router.push(url);
+      window.location.replace(url);
+    },
+    handleSelect(index) {
+      const path = menuConfig[index];
+      this.activeIndex = index;
+      this.$router.push(path);
     },
   },
   mounted() {
@@ -54,7 +94,6 @@ export default {
 <style lang="less" scoped>
 .header-comp {
   padding: 0 60px;
-  height: 50px;
   width: calc(100% - 120px);
   background: #fff;
   border-bottom: 1px solid #ccc;

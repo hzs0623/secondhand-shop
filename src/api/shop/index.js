@@ -42,3 +42,36 @@ export const deleteShopMesg = (data) => {
     data
   })
 }
+
+export const addShopItem = (data) => {
+  return request({
+    url: '/shop/add',
+    method: 'post',
+    data
+  })
+}
+
+export const getByIdShopList = (params) => {
+  return request({
+    url: '/shop/uid/list',
+    method: 'get',
+    params
+  })
+}
+
+export const removeShop = (data) => {
+  return request({
+    url: '/shop/delete',
+    method: 'post',
+    data
+  })
+}
+
+// 商品编辑
+export const editShop = (data) => {
+  return request({
+    url: '/shop/edit',
+    method: 'post',
+    data
+  })
+}
