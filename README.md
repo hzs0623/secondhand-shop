@@ -1,10 +1,10 @@
 # deal-shop
-###校园二手交易商城
+### 校园二手交易商城
 Build Status Coverage Status
 
 在线校园二手交易商城项目，持续完善中...
 
-###启动服务
+### 启动服务
 
 `npm run dev`
 
