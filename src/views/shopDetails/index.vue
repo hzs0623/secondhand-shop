@@ -238,6 +238,7 @@ export default {
         .then(async (_) => {
           await removeShop({
             id: this.shopping.id,
+            uid: this.uid,
           });
           this.$message({
             type: "success",

@@ -5,13 +5,17 @@
     </div>
     <ul v-show="show">
       <li @click="getUserInfo">个人信息</li>
+      <li @click="dialogVisible = true">已买商品</li>
       <li @click="out">退出</li>
     </ul>
+
+    <Dialog :dialogVisible="dialogVisible" @close="dialogVisible = false" />
   </div>
 </template>
 
 <script>
 import { pro_token } from "@/utils";
+import Dialog from "@/components/BuyDialog";
 
 export default {
   name: "login-nav",
@@ -21,9 +25,13 @@ export default {
       default: () => {},
     },
   },
+  components: {
+    Dialog,
+  },
   data() {
     return {
       show: false,
+      dialogVisible: false,
     };
   },
   methods: {

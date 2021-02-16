@@ -76,3 +76,11 @@ export const editShop = (data) => {
   })
 }
 
+// 商品搜索
+export const searchShop = (params) => {
+  return request({
+    url: '/shop/search',
+    method: 'get',
+    params
+  })
+}

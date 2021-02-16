@@ -1,6 +1,7 @@
 <template>
   <div class="my-shoping">
-    <div class="shop-item">
+    <NotContent v-if="notContent" />
+    <div class="shop-item" v-else>
       <shop-item
         class="item"
         v-for="item in list"
@@ -25,6 +26,7 @@ import { mapGetters } from "vuex";
 import { getByIdShopList } from "@/api/shop";
 import ShopItem from "@/components/ShopItem";
 import Page from "@/components/common/Page";
+import NotContent from "@/components/common/NotContent";
 
 export default {
   name: "my-shoping",
@@ -34,6 +36,7 @@ export default {
   components: {
     ShopItem,
     Page,
+    NotContent,
   },
   data() {
     return {
@@ -41,6 +44,7 @@ export default {
       curPage: 1,
       list: [],
       total: 0,
+      notContent: false,
     };
   },
   methods: {
@@ -53,6 +57,9 @@ export default {
       const { total = 0, list = [] } = res || {};
       this.total = total;
       this.list = list;
+      if (list.length === 0) {
+        this.notContent = true;
+      }
     },
     handleDetails(item) {
       this.$router.push({

@@ -1,15 +1,17 @@
 <template>
-  <div class="error-page">
+  <div class="not-content">
     <img :src="imgLogin" alt="" />
-    <el-link type="primary" :href="'/'">返回主页</el-link>
+    <el-link type="primary" :href="`/#/publish/shop`"
+      >没有发布任何商品，来发布你闲置物品吧</el-link
+    >
   </div>
 </template>
 
 <script>
-import imgLogin from "@/assets/images/404.png";
+import imgLogin from "@/assets/images/notContent.png";
 
 export default {
-  name: "error-page",
+  name: "not-content",
   data() {
     return {
       imgLogin,
@@ -18,7 +20,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.error-page {
+.not-content {
   display: flex;
   justify-content: center;
   align-items: center;

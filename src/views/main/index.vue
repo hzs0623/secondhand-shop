@@ -1,6 +1,7 @@
 <template>
   <div class="main-shop-page">
-    <div class="shop-item">
+    <NotContent v-if="NotContent" />
+    <div class="shop-item" v-else>
       <shop-item
         class="item"
         v-for="item in list"
@@ -24,6 +25,7 @@
 import ShopItem from "@/components/ShopItem";
 import Page from "@/components/common/Page";
 import { getShopList } from "@/api/shop";
+import NotContent from "@/components/common/NotContent";
 
 export default {
   name: "main-shop-page",
@@ -33,11 +35,13 @@ export default {
       total: 0,
       pageSize: 10,
       curPage: 1,
+      NotContent: false,
     };
   },
   components: {
     ShopItem,
     Page,
+    NotContent,
   },
   methods: {
     getInit() {
@@ -51,6 +55,7 @@ export default {
       const { list = [], total = 0 } = res || {};
       this.list = list;
       this.total = total;
+      this.NotContent = total == 0 && true;
     },
     handleDetails(item) {
       this.$router.push({
