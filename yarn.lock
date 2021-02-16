@@ -3192,10 +3192,10 @@ http-errors@~1.7.2:
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
 
-http-optimize@^0.0.4:
-  version "0.0.4"
-  resolved "https://registry.npmjs.org/http-optimize/-/http-optimize-0.0.4.tgz#dea70ad6754576512d26d9e44f9a1ac64d6d120f"
-  integrity sha512-xRGaA3yDoNaGzxidasAtg4LsvxQOXikb7gJ9t27Du3ZaW2/T9B+ObwoN0yt9pJBl2XAbI9ubC+vClR7Vb2tXQA==
+http-optimize@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.npmjs.org/http-optimize/-/http-optimize-0.0.6.tgz#bcaccad40226793d9ee81ba1d83434a75b06b71c"
+  integrity sha512-lGzyEvODkTAo5OuUldFOTCxANeIYTbzyVdGRZrteB6Hge2g+qYwqcqg1Xnf2hf/8oP1JuWLdUavp9qIHixuacA==
   dependencies:
     babel-preset-env "^1.7.0"
     ts-loader "^8.0.14"

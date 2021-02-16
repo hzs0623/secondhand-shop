@@ -1,0 +1,51 @@
+@import "Style/color";
+
+.user-page {
+  padding: 20px 160px;
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+  ul{
+    padding:0 80px;
+    li{
+      display: flex;
+      padding: 30px 0;
+      // align-items: center;
+      border-bottom: 1px solid #ebebeb;
+      font-size: 16px;
+      h3{
+        width: 100px;
+        &.name{
+          font-size: 22px;
+        }
+        font-size: 18px;
+        font-weight: 500;
+      }
+      .content{
+        width: 100%;
+        display: flex;
+        margin-left: 100px;
+        .edit{
+          display: none;
+          margin-left: 14px;
+          color: @color-primary;
+          cursor: pointer;
+        }
+      }
+      .form{
+        margin-left: 80px;
+        .btn{
+          margin-top: 10px;
+        }
+      }
+      &:hover{
+        .content{
+          .edit{
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}

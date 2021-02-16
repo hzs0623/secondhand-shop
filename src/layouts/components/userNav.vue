@@ -4,15 +4,14 @@
       {{ user.user }} <i class="el-icon-arrow-down"></i>
     </div>
     <ul v-show="show">
-      <li class="login-nav-li" @click="getUserInfo">个人信息</li>
-      <li class="login-nav-li" @click="out">退出</li>
+      <li @click="getUserInfo">个人信息</li>
+      <li @click="out">退出</li>
     </ul>
   </div>
 </template>
 
 <script>
 import { pro_token } from "@/utils";
-import { userInfo } from "@/api/user";
 
 export default {
   name: "login-nav",
@@ -38,14 +37,10 @@ export default {
     navShow(e) {
       const map = ["title", "el-icon-arrow-down"];
       if (!this.show || map.indexOf(e.target.className) > -1) return;
-      if (e.target.className !== "login-nav-li") {
-        this.show = false;
-      }
+      this.show = false;
     },
-    async getUserInfo() {
-      const { uid } = this.user;
-      const res = await userInfo({ uid });
-      console.log(res);
+    getUserInfo() {
+      this.$router.push("/user/info");
     },
   },
   mounted() {

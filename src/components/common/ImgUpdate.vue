@@ -73,6 +73,11 @@ export default {
       this.$refs.upload.submit();
     },
     success(response, file, fileList) {
+      const { code } = response;
+      if (code === 1005) {
+        this.$router.push("/login");
+        return;
+      }
       this.$emit("success", response, file, fileList);
     },
     onChange(file) {

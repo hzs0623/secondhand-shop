@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { handleResponse, handleRequest } from './utils';
 import { apiUrl } from '@/utils/var';
+import { getRequest, HttpResponse, httpError } from 'http-optimize';
 
 
 // 创建一个 axios 实例
@@ -18,11 +19,13 @@ service.interceptors.request.use(config => {
 // 响应拦截器
 service.interceptors.response.use(
   response => {
+    HttpResponse(response);
     return handleResponse(response);
   },
   error => {
+    httpError(error);
     Promise.reject(error);
   }
 )
 
-export default service; // 4. 导出请求
+export default getRequest(service); // 4. 导出请求

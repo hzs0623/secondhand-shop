@@ -15,25 +15,35 @@ const frameIn = [
         name: "Main",
         component: _import('main/index')
       },
+      // 商品详情
       {
         path: 'shop/details',
         name: 'details',
         component: _import('shopDetails')
       },
+      // 发布物品
       {
         path: 'publish/shop',
         name: 'publish',
         component: _import('publish')
       },
-      {
-        path: 'ask/buy', // 求购商城
-        name: 'askBuy',
-        component: _import('askBuy')
-      },
+      // 我发布的商品
       {
         path: 'my/shoping',
-        name: 'shopCart',
+        name: 'myShop',
         component: _import('myShop')
+      },
+      // 用户信息
+      {
+        path: 'user/info',
+        name: 'userInfo',
+        component: _import('userInfo')
+      },
+      // 购物车
+      {
+        path: 'shop/cart',
+        name: 'shopCart',
+        component: _import('shopCart')
       }
     ]
   }

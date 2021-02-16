@@ -37,7 +37,7 @@ export default {
   },
   data() {
     return {
-      pageSize: 4,
+      pageSize: 10,
       curPage: 1,
       list: [],
       total: 0,

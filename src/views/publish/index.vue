@@ -28,7 +28,7 @@ export default {
       };
       const res = await addShopItem(params);
       this.$message.success("发布商品成功");
-      this.$router.push("/"); // 跳转到主页
+      window.location.replace("/#/my/shoping");
     },
   },
 };

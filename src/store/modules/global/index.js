@@ -1,4 +1,5 @@
 import { SETUSREINFO, SETMAPDATE } from './types';
+// ['服饰', '鞋类箱包','运动户外','珠宝配饰','化妆品','图书音像','乐器','服务大类','食品','数码',]
 
 const state = {
   user: {
@@ -43,9 +44,27 @@ const getters = {
     return data;
   },
   uid: function (state) {
-    const { user } = state;
-    const { uid = '' } = user || {};
+    const { user = {} } = state;
+    const { uid = '' } = user;
     return uid;
+  },
+  username_map: function () {
+    const { mapData = {} } = state;
+    const { username_map: data = {} } = mapData;
+    return data;
+  },
+  username: function (state) {
+    const { user = {}, mapData = {} } = state;
+    const { uid = '' } = user;
+    const { username_map } = mapData;
+    let name = '';
+    username_map && username_map.some(user => {
+      if (user.uid == uid) {
+        name = user.username;
+        return true
+      }
+    });
+    return name;
   }
 };
 

@@ -4,7 +4,7 @@ const formatTime = (date) => {
   function time(date) {
     return date < 10 ? `0${date}` : date;
   }
-  date = date.length === 13 ? Number(date) : Number(date) * 1000;
+  date = (date + '').length === 13 ? Number(date) : Number(date) * 1000;
   date = new Date(date);
   const yy = time(date.getFullYear());
   const mm = time(date.getMonth() + 1);

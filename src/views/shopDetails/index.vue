@@ -12,16 +12,30 @@
             <span>单价：</span> ¥{{ shopping.price ? shopping.price : "0" }}
           </li>
           <li><span>数量：</span> {{ shopping.count }}</li>
-          <li><span>详情：</span> {{ shopping.shoppingrmation }}</li>
-          <li><span>分类：</span> {{ sort_map[shopping.sort] }}</li>
-          <li><span>发布时间： </span>{{ shopping.create_time | formatTime }}</li>
-          <li><span>更新时间： </span>{{ shopping.update_time | formatTime }}</li>
+          <li><span>详情：</span> {{ shopping.information }}</li>
+          <li>
+            <span>分类：</span> <i class="el-icon-price-tag"></i>
+            {{ sort_map[shopping.sort] }}
+          </li>
+          <li>
+            <span>发布时间： </span> <i class="el-icon-date"></i>
+            {{ shopping.create_time | formatTime }}
+          </li>
+          <li>
+            <span>发布人： </span> <i class="el-icon-user"></i>
+            {{ shopping.uid | getUsername(username_map) }}
+          </li>
         </ul>
       </div>
 
       <div class="add-shop">
-        <div class="btn" v-if="shopping.uid !== uid">
-          <i class="el-icon-shopping-cart-2"></i> 加入购物车
+        <div v-if="shopping.uid !== uid">
+          <div v-if="shopping.display === 2">
+            <el-button disabled>被拍下</el-button>
+          </div>
+          <div v-else @click="addCart" class="btn">
+            <i class="el-icon-shopping-cart-2"></i> 加入购物车
+          </div>
         </div>
         <div v-else>
           <el-button type="primary" @click="handleEdit" class="el-icon-edit"
@@ -71,6 +85,24 @@
       @close="onEditClose"
       :form="shopping"
     />
+
+    <el-dialog
+      title="选择数量购物车"
+      :visible.sync="cartState"
+      width="30%"
+      :before-close="handleCartClose"
+    >
+      <span>购买数量</span>
+      <el-input-number
+        v-model="shop_count"
+        :min="1"
+        :max="shopping.count"
+      ></el-input-number>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleCartClose">取 消</el-button>
+        <el-button type="primary" @click="onAddShopCart">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -85,6 +117,7 @@ import {
 } from "@/api/shop";
 import { mapGetters } from "vuex";
 import ShopEdit from "./shopEdit";
+import { addShopCart } from "@/api/shop/shopCart";
 
 export default {
   name: "shop-page",
@@ -94,13 +127,28 @@ export default {
       content: "",
       mesgList: [],
       dialogVisible: false,
+      cartState: false, // 购物车状态
+      shop_count: 1,
     };
+  },
+  filters: {
+    getUsername(uid, map) {
+      let username = "";
+      Object.keys(map).length &&
+        map.some((user) => {
+          if (user.uid === uid) {
+            username = user.username;
+            return true;
+          }
+        });
+      return username;
+    },
   },
   components: {
     ShopEdit,
   },
   computed: {
-    ...mapGetters("global", ["sort_map", "uid"]),
+    ...mapGetters("global", ["sort_map", "uid", "username_map"]),
   },
   methods: {
     async getInit() {
@@ -134,6 +182,24 @@ export default {
       this.getMesgList();
       this.$message.success("添加留言成功");
       this.content = "";
+    },
+    // 添加购物车
+    addCart() {
+      this.cartState = true;
+    },
+    handleCartClose() {
+      this.cartState = false;
+    },
+    // 添加购物车请求🛒
+    async onAddShopCart() {
+      this.cartState = false;
+      const res = await addShopCart({
+        uid: this.uid,
+        sid: this.shopping.id,
+        shop_count: this.shop_count,
+      });
+      this.$message.success("加入购物车🛒成功");
+      window.location.replace(`/#/shop/cart`);
     },
     // 删除留言
     handleDelete(item) {

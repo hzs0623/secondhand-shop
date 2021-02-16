@@ -8,3 +8,12 @@ export const getMap = (params) => {
     params,
   })
 }
+
+// 获取map值
+export const getUserMap = (params) => {
+  return request({
+    url: '/init/user/map',
+    method: 'get',
+    params,
+  })
+}

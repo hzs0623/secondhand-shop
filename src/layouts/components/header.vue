@@ -31,13 +31,13 @@
 import User from "./userNav";
 import { getToken } from "@/utils";
 import { mapActions } from "vuex";
-import { getMap } from "@/api/init";
+import { getMap, getUserMap } from "@/api/init";
 
 const menuConfig = {
   1: "/index",
-  2: "/ask/buy",
+  2: "/my/shoping",
   3: "/publish/shop",
-  4: "/my/shoping",
+  4: "/shop/cart",
 };
 export default {
   name: "header-comp",
@@ -47,13 +47,24 @@ export default {
       user: {},
       menuMap: {
         1: "首页",
-        2: "求购商城",
+        2: "我发布的商品",
         3: "发布闲置",
-        4: "我发布的商品",
+        4: "购物车",
       },
       menuConfig,
       activeIndex: this.getMenuIndex(),
     };
+  },
+  watch: {
+    $route: function (newVal) {
+      const { path } = newVal;
+      Object.keys(menuConfig).forEach((key) => {
+        const item = menuConfig[key];
+        if (item === path) {
+          this.activeIndex = key;
+        }
+      });
+    },
   },
   components: {
     User,
@@ -63,9 +74,13 @@ export default {
     async getInit() {
       const data = getToken();
       this.setUserInfo(data); // 个人信息
-      const res = await getMap();
-      this.setMapData(res); // 映射map
       this.user = data;
+      const sort_map = await getMap();
+      const userMap = await getUserMap();
+      this.setMapData({
+        ...sort_map,
+        ...userMap,
+      }); // 映射map
     },
     getMenuIndex() {
       let i = "1";

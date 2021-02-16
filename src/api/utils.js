@@ -63,9 +63,9 @@ export const handleResponse = (response) => {
           path: "/login"
         });
       }
-      break;
+      return Promise.reject(msg);
     default:
       errorCreate(`${msg}`);
-      return Promise.reject(dataAxios);
+      return Promise.reject(msg);
   }
 }
