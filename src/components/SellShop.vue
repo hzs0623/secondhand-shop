@@ -1,8 +1,8 @@
 <template>
   <el-dialog
-    title="已购买商品"
-    :visible.sync="dialogVisible"
-    width="80%"
+    title="出售订单"
+    :visible.sync="sellState"
+    width="90%"
     :before-close="handleClose"
   >
     <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
@@ -18,14 +18,14 @@
       <el-table-column prop="information" label="详情" show-overflow-tooltip>
       </el-table-column>
       <el-table-column prop="price" label="商品金额"> </el-table-column>
-      <el-table-column prop="shop_count" label="数量"> </el-table-column>
-      <el-table-column label="卖家">
+      <el-table-column prop="buy_uid" label="买家用户名">
         <template slot-scope="scope">
           <div>
-            {{ getUsername(scope.row.uid) }}
+            {{ getUsername(scope.row.buy_uid) }}
           </div>
         </template>
       </el-table-column>
+      <el-table-column prop="shop_count" label="购买数量"> </el-table-column>
       <el-table-column label="交易状态">
         <template slot-scope="scope">
           <div>
@@ -40,20 +40,19 @@
           </div>
         </template>
       </el-table-column>
-
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
           <el-button
-            v-if="scope.row.state == 2"
+            v-if="scope.row.state == 1"
             size="mini"
             type="primary"
-            @click="handleEdit(scope.row, 3)"
-            >确认收货</el-button
+            @click="handleEdit(scope.row, 2)"
+            >发货</el-button
           >
-          <el-button v-else-if="scope.row.state == 3" size="mini" type="success" disabled
+          <el-button v-if="scope.row.state == 3" size="mini" type="success" disabled
             >交易完成</el-button
           >
-          <el-button v-else size="mini" type="warning">取消订单</el-button>
+          <!-- <el-button size="mini" type="warning">取消订单</el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -64,22 +63,20 @@
 </template>
 
 <script>
-import { getBuyshopList } from "@/api/user/buyShop";
-import { orderEdit } from "@/api/order";
-
+import { getOrderList, orderEdit } from "@/api/order";
 import { mapGetters } from "vuex";
 import { methodMap, sellStateMap } from "@/utils/var";
 
 export default {
   name: "buy-shop-list",
   props: {
-    dialogVisible: false,
+    sellState: false,
   },
   computed: {
     ...mapGetters("global", ["uid", "username_map"]),
   },
   watch: {
-    dialogVisible(newVal) {
+    sellState(newVal) {
       if (newVal) {
         this.getList();
       }
@@ -90,21 +87,25 @@ export default {
       list: [],
       methodMap,
       sellStateMap,
+      pageSize: 5,
+      curPage: 1,
     };
   },
   methods: {
     async getList() {
-      const res = await getBuyshopList({
+      const res = await getOrderList({
         uid: this.uid,
+        pageSize: this.pageSize,
+        curPage: this.curPage,
       });
       const { list = [] } = res;
       this.list = list;
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state === 1) {
-        return "success-row";
-      } else if (row.state === 3) {
         return "warning-row";
+      } else if (row.state === 3) {
+        return "success-row";
       }
       return "";
     },
@@ -113,6 +114,16 @@ export default {
     },
     handleClose() {
       this.$emit("close");
+    },
+    // 发货
+    async handleEdit({ buy_uid: uid, sid }, state) {
+      await orderEdit({
+        uid,
+        sid,
+        state,
+      });
+      this.$message.success("发货成功！");
+      this.getList();
     },
     getUsername(uid) {
       let username = "";
@@ -124,16 +135,7 @@ export default {
       });
       return username;
     },
-    // 发货
-    async handleEdit({ sid }, state) {
-      await orderEdit({
-        uid: this.uid,
-        sid,
-        state,
-      });
-      this.$message.success("确认收货成功");
-      this.getList();
-    },
   },
 };
 </script>
+<style lang="less"></style>

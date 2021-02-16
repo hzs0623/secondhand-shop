@@ -94,7 +94,9 @@ export default {
       return obj;
     },
     getLevelMap() {
-      let obj = {};
+      let obj = {
+        10: "全新",
+      };
       for (let i = 1; i <= 9; i++) {
         obj[i] = `${i}成新`;
       }

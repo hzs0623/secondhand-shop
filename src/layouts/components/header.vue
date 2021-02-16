@@ -108,18 +108,17 @@ export default {
 </script>
 <style lang="less" scoped>
 .header-comp {
-  padding: 0 60px;
-  width: calc(100% - 120px);
+  padding: 0 100px;
+  width: calc(100% - 200px);
   background: #fff;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   .hearder-log {
-    flex: 1;
     cursor: pointer;
   }
   .hearder-login {
-    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -30,17 +30,14 @@
 
       <div class="add-shop">
         <div v-if="shopping.uid !== uid">
-          <div v-if="shopping.display === 2">
-            <el-button disabled>被拍下</el-button>
-          </div>
-          <div v-else @click="addCart" class="btn">
+          <div @click="addCart" class="btn">
             <i class="el-icon-shopping-cart-2"></i> 加入购物车
           </div>
         </div>
         <div v-else>
-          <el-button type="primary" @click="handleEdit" class="el-icon-edit"
-            >修改</el-button
-          >
+          <el-button type="primary" @click="handleEdit" class="el-icon-edit">{{
+            shopping.display == 2 ? "卖完啦重新上架" : "修改"
+          }}</el-button>
           <el-button @click="removeShop" class="el-icon-delete">删除商品 </el-button>
         </div>
       </div>

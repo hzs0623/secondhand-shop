@@ -41,16 +41,34 @@
       <span
         >总价¥ <i>{{ totalPrice }}</i></span
       >
-      <el-button type="primary" :disabled="totalPrice === 0" @click="paymentShop">
+      <el-button type="primary" :disabled="totalPrice === 0" @click="handleClose">
         结 算
       </el-button>
     </div>
+
+    <el-dialog
+      title="支付方式"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <span>支付方式：</span>
+      <el-select v-model="buy_method" placeholder="请选择支付方式">
+        <el-option v-for="(item, key) in methodMap" :key="key" :label="item" :value="key">
+        </el-option>
+      </el-select>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleClose">取 消</el-button>
+        <el-button type="primary" @click="paymentShop">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { getShopCart, removeShopCart, paymentShop } from "@/api/shop/shopCart";
 import { mapGetters } from "vuex";
+import { methodMap } from "@/utils/var";
 
 export default {
   name: "shop-cart",
@@ -59,6 +77,9 @@ export default {
       list: [],
       tableData: [],
       totalPrice: 0,
+      dialogVisible: false,
+      methodMap,
+      buy_method: "", // 支付方式
     };
   },
   computed: {
@@ -111,6 +132,10 @@ export default {
       window.open(url);
     },
     async paymentShop() {
+      if (!this.buy_method) {
+        this.$message.warning("请选择支付方式哦");
+        return;
+      }
       const shopList = this.tableData.map((item) => {
         const { shop_count, id: sid } = item;
         return {
@@ -119,11 +144,19 @@ export default {
           state: 1,
         };
       });
-      const res = await paymentShop({
+      // 结算
+      await paymentShop({
         shopList,
         uid: this.uid,
+        buy_method: this.buy_method,
       });
+      this.handleClose();
+      this.$message.success("购买成功，等待卖家发货");
       this.getList();
+    },
+    handleClose() {
+      this.buy_method = "";
+      this.dialogVisible = !this.dialogVisible;
     },
   },
   mounted() {
