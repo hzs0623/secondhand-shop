@@ -103,21 +103,20 @@ export default {
       this.levelMap = obj;
     },
     // 图片上传成功
-    onSuccess(res) {
-      const { data, code } = res || {};
-      const { path = "" } = data;
+    onSuccess(imageUrl) {
       this.$emit("submit", {
         ...this.formData,
-        image: path,
+        image: imageUrl,
       });
     },
     onSubmit() {
       this.$refs.form.validate((valid) => {
         if (!valid) return this.$message.warning("完善表单");
-
+        // 修改
         if (this.formData.id && !this.$refs.updateImg.isImage) {
           this.$emit("submit", this.formData);
         } else {
+          // 新增
           if (!this.$refs.updateImg.isImage)
             return this.$message.warning("请上传商品图片");
           this.$refs.updateImg.submit(); // 提交图片

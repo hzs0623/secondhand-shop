@@ -1,15 +1,14 @@
 <template>
   <div class="upload-img-comp">
     <el-upload
-      :action="actionUrl"
+      action
+      :http-request="Upload"
       list-type="picture-card"
       :auto-upload="false"
       :multiple="false"
-      :headers="headers"
       :limit="1"
       accept=".png,.jpg,.jpeg,.gif, .bmp"
       ref="upload"
-      :on-success="success"
       :on-change="onChange"
     >
       <i slot="default" class="el-icon-plus"></i>
@@ -51,10 +50,6 @@ export default {
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
-      actionUrl: `${apiUrl}/upload/image`, // 上传地址
-      headers: {
-        authtoken: "",
-      },
       isImage: false,
     };
   },
@@ -69,20 +64,21 @@ export default {
     },
     // 上传服务器
     submit() {
-      this.headers.authtoken = this.token;
       this.$refs.upload.submit();
-    },
-    success(response, file, fileList) {
-      const { code } = response;
-      if (code === 1005) {
-        this.$router.push("/login");
-        return;
-      }
-      this.$emit("success", response, file, fileList);
     },
     onChange(file) {
       if (!file.url) return;
       this.isImage = true;
+    },
+    Upload(file) {
+      this.$upload(file.file)
+        .then((imageUrl) => {
+          // 返回上传成功的地址
+          this.$emit("success", imageUrl);
+        })
+        .catch((e) => {
+          this.$emit("error", e);
+        });
     },
   },
 };

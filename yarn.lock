@@ -2233,6 +2233,13 @@ core-util-is@~1.0.0:
   resolved "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
   integrity sha1-tf1UIgqivFq1eqtxQMlAdUUDwac=
 
+cos-js-sdk-v5@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/cos-js-sdk-v5/-/cos-js-sdk-v5-1.2.1.tgz#9e01f1b7788292a11c0c87edfe1626582a37e819"
+  integrity sha512-B7PBdhfDk+PA7d88C76N0lObp4BRSPPJ1TPUCaA2Kc8Xn036AUxPZfT4Y6/X4Wo2SF97S49rXfFm/QJDrUczrA==
+  dependencies:
+    xmldom "^0.1.31"
+
 cross-spawn@^6.0.0:
   version "6.0.5"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-6.0.5.tgz#4a5ec7c64dfae22c3a14124dbacdee846d80cbc4"
@@ -5803,6 +5810,11 @@ ws@^6.2.1:
   integrity sha512-GIyAXC2cB7LjvpgMt9EKS2ldqr0MTrORaleiOno6TweZ6r3TKtoFQWay/2PceJ3RuBasOHzXNn5Lrw1X0bEjqA==
   dependencies:
     async-limiter "~1.0.0"
+
+xmldom@^0.1.31:
+  version "0.1.31"
+  resolved "https://registry.npmjs.org/xmldom/-/xmldom-0.1.31.tgz#b76c9a1bd9f0a9737e5a72dc37231cf38375e2ff"
+  integrity sha512-yS2uJflVQs6n+CyjHoaBmVSqIDevTAWrzMmjG1Gc7h1qQ7uVozNhEPJAwZXWyGQ/Gafo3fCwrcaokezLPupVyQ==
 
 xtend@~4.0.1:
   version "4.0.2"
