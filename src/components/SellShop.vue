@@ -65,7 +65,7 @@
 <script>
 import { getOrderList, orderEdit } from "@/api/order";
 import { mapGetters } from "vuex";
-import { methodMap, sellStateMap } from "@/utils/var";
+import { methodMap, sellStateMap } from "@/constant";
 
 export default {
   name: "buy-shop-list",

@@ -68,7 +68,7 @@
 <script>
 import { getShopCart, removeShopCart, paymentShop } from "@/api/shop/shopCart";
 import { mapGetters } from "vuex";
-import { methodMap } from "@/utils/var";
+import { methodMap } from "@/constant";
 
 export default {
   name: "shop-cart",

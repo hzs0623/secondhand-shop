@@ -3,6 +3,7 @@
   "plugins": [
     ["@babel/plugin-proposal-decorators", { "legacy": true }],
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
-    ["@babel/plugin-transform-runtime"] // 解决es6 es7 方法
+    ["@babel/plugin-transform-runtime"], // 解决es6 es7 方法
+    ["@babel/plugin-syntax-dynamic-import"] // 路由懒加载babel
   ]
 }

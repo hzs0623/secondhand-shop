@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { handleResponse, handleRequest } from './utils';
-import { apiUrl } from '@/utils/var';
+import { apiUrl } from '@/constant';
 import { getRequest, HttpResponse, httpError } from 'http-optimize';
 
 

@@ -1,27 +1,37 @@
 // 上传oss
 import COS from 'cos-js-sdk-v5';
+import { getOssConfig } from '@/api/init';
 
 const Config = {
   Bucket: 'daes-1251985304',// 存储桶的名称
   Region: 'ap-shanghai',  /* 存储桶所在地域，必须字段 */
-  secretId: 'AKIDd4F7nC6AolTuUptjhSzHJ5ZrugdLnymM', // key
-  secretKey: 'jdTpa5MRL5f1Qu86n7Reklx0sMCuZEpb', // 腾讯云 key
 };
 
 const keyBase = `shop/image`;  // 上传文件 路径
 
+
+
 /**
  * 请求体
  */
-export const upload = (fileObject) => {
-
-  const { name } = fileObject;
-
+export const upload = async (fileObject) => {
   const cos = new COS({
-    SecretId: Config.secretId,
-    SecretKey: Config.secretKey,
-  })
+    getAuthorization: async function (_, callback) {
+      // 异步获取临时密钥
+      const data = await getOssConfig({
+        action: keyBase, // 文件地址
+        key: keyBase + name // 文件名字
+      });
 
+      const credentials = data && data.credentials;
+      callback({
+        TmpSecretId: credentials.tmpSecretId,
+        TmpSecretKey: credentials.tmpSecretKey,
+        XCosSecurityToken: credentials.sessionToken,
+        ExpiredTime: data.expiredTime
+      })
+    }
+  });
   return new Promise((res, rej) => {
     // 上传
     cos.putObject({
@@ -34,9 +44,8 @@ export const upload = (fileObject) => {
       onProgress: function (progressData) {
         // 上传过程
       }
-    }, function (err, data) {
+    }, function (err) {
       if (err) return rej(err);
-
       // 获取url 地址
       cos.getObjectUrl({
         Bucket: Config.Bucket,

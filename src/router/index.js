@@ -2,7 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import routes from './routes';
 import NProgress from "nprogress"; // 进度条
-import "nprogress/nprogress.css";
+// import "nprogress/nprogress.css";
 
 Vue.use(VueRouter);
 
@@ -15,7 +15,6 @@ VueRouter.prototype.push = function push(location) {
 const router = new VueRouter({
   routes
 });
-
 
 // 前置守卫
 router.beforeEach((to, from, next) => {

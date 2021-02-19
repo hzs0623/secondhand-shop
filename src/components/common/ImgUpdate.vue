@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { apiUrl } from "@/utils/var";
+import { apiUrl } from "@/constant";
 import { mapGetters } from "vuex";
 
 export default {

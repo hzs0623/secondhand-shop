@@ -46,7 +46,7 @@
 <script>
 import imgLogin from "@/assets/images/login.png";
 import { login } from "@/api/user";
-import { pro_token } from "@/utils";
+import { pro_token } from "@/constant";
 import format from "../mixins";
 
 export default {

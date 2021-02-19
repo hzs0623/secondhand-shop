@@ -1,4 +1,4 @@
-import { pro_token } from './var';
+import { pro_token } from '@/constant';
 
 export function getToken() {
   try {

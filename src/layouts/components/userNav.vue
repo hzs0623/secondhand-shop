@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { pro_token } from "@/utils";
+import { pro_token } from "@/constant";
 import Dialog from "@/components/BuyDialog";
 import SellShop from "@/components/SellShop";
 

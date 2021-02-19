@@ -17,3 +17,12 @@ export const getUserMap = (params) => {
     params,
   })
 }
+
+// 获取oss
+export const getOssConfig = (params) => {
+  return request({
+    url: '/oss/config',
+    method: 'get',
+    params,
+  })
+}
