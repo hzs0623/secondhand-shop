@@ -2,7 +2,7 @@ import axios from 'axios';
 import { handleResponse, handleRequest } from './utils';
 import { apiUrl } from '@/constant';
 import { getRequest, HttpResponse, httpError } from 'http-optimize';
-
+import { loadingState } from "@/libs/loading";
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -24,8 +24,13 @@ service.interceptors.response.use(
   },
   error => {
     httpError(error);
+    loadingState(false);
     Promise.reject(error);
   }
 )
 
-export default getRequest(service); // 4. 导出请求
+export default getRequest(service, {
+  responseCache: (data) => {
+    return data.data
+  }
+}); // 4. 导出请求

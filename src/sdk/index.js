@@ -7,7 +7,7 @@ const Config = {
   Region: 'ap-shanghai',  /* 存储桶所在地域，必须字段 */
 };
 
-const keyBase = `shop/image`;  // 上传文件 路径
+const keyBase = `shop/image/`;  // 上传文件 路径
 
 
 
@@ -15,12 +15,14 @@ const keyBase = `shop/image`;  // 上传文件 路径
  * 请求体
  */
 export const uploadSdk = async (fileObject) => {
+  let { name } = fileObject;
+  const url = `${keyBase}${Date.now()}${name}`;
+
   const cos = new COS({
     getAuthorization: async function (_, callback) {
       // 异步获取临时密钥
       const data = await getOssConfig({
-        action: keyBase, // 文件地址
-        key: keyBase + name // 文件名字
+        key: url // 文件名字
       });
 
       const credentials = data && data.credentials;
@@ -37,7 +39,7 @@ export const uploadSdk = async (fileObject) => {
     cos.putObject({
       Bucket: Config.Bucket, /* 必须 */
       Region: Config.Region,     /* 存储桶所在地域，必须字段 */
-      Key: keyBase + name,      /* shop/image/文件下 取name 必须 */
+      Key: url,      /* shop/image/文件下 取name 必须 */
       StorageClass: 'STANDARD',
       Body: fileObject, // 上传文件对象
 
@@ -50,7 +52,7 @@ export const uploadSdk = async (fileObject) => {
       cos.getObjectUrl({
         Bucket: Config.Bucket,
         Region: Config.Region,     /* 存储桶所在地域，必须字段 */
-        Key: keyBase + name,
+        Key: url,
         Sign: false,
       }, function (err, data) {
         if (err) {

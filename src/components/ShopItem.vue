@@ -7,7 +7,7 @@
       <div class="shop-info">
         <div class="title">{{ shop.title }}</div>
         <div class="tag_warp">
-          <div class="sdby">{{ shop.level }}成新</div>
+          <div class="sdby">{{ shop.level === 10 ? "全" : shop.level + "成" }}新</div>
           <div class="sdby">{{ sort_map[shop.sort] }}</div>
         </div>
         <div class="price">

@@ -17,7 +17,7 @@ export function errorLog(error) {
 }
 
 // 创建一个错误
-function errorCreate(msg) {
+function errorCreate(msg = '') {
   const error = new Error(msg);
   errorLog(error);
   throw error;
@@ -48,7 +48,7 @@ export const handleRequest = (config) => {
 export const handleResponse = (response) => {
   const { config, data: axiosData } = response;
   loadingState(false); // 关闭loading
-  const { code, msg, data = {} } = axiosData;
+  const { code, msg = ' ', data = {} } = axiosData;
   switch (`${code}`) {
     case '1001':
       return data;

@@ -14,7 +14,7 @@ const htmlPluginConfig = {
 const devServer = {
   contentBase: resolve(__dirname, 'dist'),
   compress: true, // 压缩
-  port: 8889,
+  port: 8888,
   hot: true,
   host: '127.0.0.1',
   open: true,
@@ -34,7 +34,7 @@ module.exports = {
   devtool: "inline-source-map", // 跟踪错误信息
   devServer,
   output: {
-    path: resolve(__dirname, 'dist'),
+    path: resolve(__dirname, 'public'),
     filename: 'js/[name].[hash].js',
     publicPath: '/'
   },
@@ -92,7 +92,7 @@ module.exports = {
     new htmlPlugin(htmlPluginConfig),
     new VueLoaderPlugin(),
     // 打包压缩浏览
-    new BundleAnalyzerPlugin(),
+    // new BundleAnalyzerPlugin(),
     // 剥离CSS文件
     new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css',
