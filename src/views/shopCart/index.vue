@@ -50,7 +50,7 @@
       <span
         >总价¥ <i>{{ totalPrice }}</i></span
       >
-      <el-button type="primary" :disabled="totalPrice === 0" @click="handleClose">
+      <el-button type="primary" :disabled="totalPrice === 0" @click="handleSettlement">
         结 算
       </el-button>
     </div>
@@ -58,14 +58,30 @@
     <el-dialog
       title="支付方式"
       :visible.sync="dialogVisible"
-      width="30%"
+      width="50%"
       :before-close="handleClose"
     >
-      <span>支付方式：</span>
-      <el-select v-model="buy_method" placeholder="请选择支付方式">
-        <el-option v-for="(item, key) in methodMap" :key="key" :label="item" :value="key">
-        </el-option>
-      </el-select>
+      <el-form :model="form" :rules="rules" ref="form" label-width="100px">
+        <el-form-item label="收货地址：" prop="shipping_address">
+          <el-input v-model="form.shipping_address" placeholder="请输入收货地址">
+          </el-input>
+        </el-form-item>
+        <el-form-item label="联系电话：" prop="phone">
+          <el-input v-model="form.phone" placeholder="请输入联系电话"> </el-input>
+        </el-form-item>
+        <el-form-item label="支付方式：" prop="buy_method">
+          <el-select v-model="form.buy_method" placeholder="请选择支付方式">
+            <el-option
+              v-for="(item, key) in methodMap"
+              :key="key"
+              :label="item"
+              :value="key"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+
       <span slot="footer" class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
         <el-button type="primary" @click="paymentShop">确 定</el-button>
@@ -78,17 +94,35 @@
 import { getShopCart, removeShopCart, paymentShop } from "@/api/shop/shopCart";
 import { mapGetters } from "vuex";
 import { methodMap } from "@/constant";
+import { userInfo } from "@/api/user";
 
 export default {
   name: "shop-cart",
   data() {
+    const validatePhone = (rule, value, callback) => {
+      if (!/^1(3[0-9]|4[678]|5[0-35-9]|7[0-8]|9[0-35-9])\d{8}/.test(value)) {
+        callback(new Error("输入正确的手机号"));
+      } else {
+        callback();
+      }
+    };
     return {
       list: [],
       tableData: [],
       totalPrice: 0,
       dialogVisible: false,
       methodMap,
-      buy_method: "", // 支付方式
+      form: {
+        buy_method: "", // 支付方式
+        shipping_address: "", // 收货地址
+        phone: "",
+      },
+      rules: {
+        buy_method: [{ required: true, message: "请选择支付方式", trigger: "change" }],
+        shipping_address: [{ required: true, message: "输入收货地址", trigger: "blur" }],
+
+        phone: { validator: validatePhone, trigger: "blur" },
+      },
     };
   },
   computed: {
@@ -149,32 +183,43 @@ export default {
     onSkip(url) {
       window.open(url);
     },
-    async paymentShop() {
-      if (!this.buy_method) {
-        this.$message.warning("请选择支付方式哦");
-        return;
-      }
-      const shopList = this.tableData.map((item) => {
-        const { shop_count, id: sid } = item;
-        return {
-          shop_count,
-          sid,
-          state: 1,
-        };
+    paymentShop() {
+      this.$refs["form"].validate(async (valid) => {
+        if (!valid) {
+          this.$message.warning("请完善表单");
+          return;
+        }
+
+        const shopList = this.tableData.map((item) => {
+          const { shop_count, id: sid } = item;
+          return {
+            shop_count,
+            sid,
+            state: 1,
+          };
+        });
+        // 结算
+        await paymentShop({
+          shopList,
+          uid: this.uid,
+          ...this.form,
+        });
+        this.handleClose();
+        this.$message.success("购买成功，等待卖家发货");
+        this.getList();
       });
-      // 结算
-      await paymentShop({
-        shopList,
-        uid: this.uid,
-        buy_method: this.buy_method,
-      });
-      this.handleClose();
-      this.$message.success("购买成功，等待卖家发货");
-      this.getList();
     },
     handleClose() {
-      this.buy_method = "";
-      this.dialogVisible = !this.dialogVisible;
+      this.dialogVisible = false;
+    },
+    async handleSettlement() {
+      this.dialogVisible = true;
+      const res = await userInfo({
+        uid: this.uid,
+      });
+      const { phone, shipping_address } = res || {};
+      this.form.phone = phone;
+      this.form.shipping_address = shipping_address;
     },
   },
   mounted() {

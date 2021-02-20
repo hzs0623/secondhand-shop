@@ -97,6 +97,28 @@
             </div>
           </div>
         </li>
+        <li>
+          <h3>收货地址</h3>
+          <div class="content" v-if="!infoObj.shipping_address">
+            <span>{{ infoData.shipping_address }}</span>
+            <div class="edit" @click="isEdit('shipping_address')">
+              <i class="el-icon-edit"></i> 修改
+            </div>
+          </div>
+          <div class="form" v-else>
+            <el-input
+              style="width: 500px"
+              class="input"
+              v-model="formData.shipping_address"
+            ></el-input>
+            <div class="btn">
+              <el-button size="small" type="primary" @click="onSubmit('shipping_address')"
+                >确定</el-button
+              >
+              <el-button size="small" @click="cancel('shipping_address')">取消</el-button>
+            </div>
+          </div>
+        </li>
       </ul>
     </el-card>
   </div>
@@ -116,6 +138,7 @@ export default {
         phone: false, // 手机号
         real_name: false, // 真实姓名
         sno: false, // 学号
+        shipping_address: false, // 收货地址
       },
       genderMap: {
         0: "其他",
@@ -147,8 +170,12 @@ export default {
     },
     // 手机号校验
     checkPhone(phone) {
-      if (!/^1[3456789]d{9}$/.test(phone)) {
-        alert("手机号码有误，请重填");
+      if (
+        !/^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/.test(
+          Number(phone)
+        )
+      ) {
+        this.$message.warning("手机号码有误，请重填");
         return false;
       } else {
         return true;
@@ -158,7 +185,7 @@ export default {
       if (key === "username" && !this.formatUsername(this.formData[key])) {
         return;
       }
-      if (key === "phone" && !checkPhone(this.formData[key])) {
+      if (key === "phone" && !this.checkPhone(this.formData[key])) {
         return;
       }
 
@@ -168,6 +195,8 @@ export default {
       }
 
       this.infoObj[key] = false;
+
+      if (this.formData[key] === this.infoData[key]) return;
       await userEdit(this.formData);
       this.getInit();
     },

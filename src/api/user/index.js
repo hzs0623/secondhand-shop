@@ -28,6 +28,6 @@ export const userInfo = (params) => {
   return request({
     url: '/user/find',
     method: 'get',
-    params
+    params,
   })
 }

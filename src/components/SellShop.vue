@@ -17,26 +17,22 @@
       </el-table-column>
       <el-table-column prop="information" label="详情" show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="price" label="商品金额"> </el-table-column>
-      <el-table-column prop="buy_uid" label="买家用户名">
+      <el-table-column label="商品信息">
         <template slot-scope="scope">
           <div>
-            {{ getUsername(scope.row.buy_uid) }}
+            <div>商品金额: {{ scope.row.price }}</div>
+            <div>交易状态: {{ sellStateMap[scope.row.state] }}</div>
+            <div>购买数量: {{ scope.row.shop_count }}</div>
+            <div>支付方式: {{ methodMap[scope.row.buy_method] }}</div>
           </div>
         </template>
       </el-table-column>
-      <el-table-column prop="shop_count" label="购买数量"> </el-table-column>
-      <el-table-column label="交易状态">
+      <el-table-column label="买家信息">
         <template slot-scope="scope">
           <div>
-            {{ sellStateMap[scope.row.state] }}
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column prop="buy_method" label="支付方式">
-        <template slot-scope="scope">
-          <div>
-            {{ methodMap[scope.row.buy_method] }}
+            <div>用户名：{{ getUsername(scope.row.buy_uid) }}</div>
+            <div>联系电话：{{ scope.row.phone }}</div>
+            <div>收货地址：{{ scope.row.shippin_address }}</div>
           </div>
         </template>
       </el-table-column>
