@@ -19,7 +19,7 @@ export const getUserMap = (params) => {
     method: 'get',
     params,
     cache: {
-      h: 1
+      m: 10
     }
   })
 }

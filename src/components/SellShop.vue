@@ -52,7 +52,13 @@
           <el-button v-if="scope.row.state == 3" size="mini" type="success" disabled
             >交易完成</el-button
           >
-          <!-- <el-button size="mini" type="warning">取消订单</el-button> -->
+          <el-button
+            size="mini"
+            v-if="scope.row.state !== 3"
+            type="warning"
+            @click="handleCancel(scope.row)"
+            >取消订单</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -63,7 +69,7 @@
 </template>
 
 <script>
-import { getOrderList, orderEdit } from "@/api/order";
+import { getOrderList, orderEdit, orderCancel } from "@/api/order";
 import { mapGetters } from "vuex";
 import { methodMap, sellStateMap } from "@/constant";
 
@@ -134,6 +140,15 @@ export default {
         }
       });
       return username;
+    },
+    // 取消订单
+    async handleCancel({ sid }) {
+      await orderCancel({
+        sid,
+        uid: this.uid,
+      });
+      this.$message.success("取消订单成功");
+      this.getList();
     },
   },
 };

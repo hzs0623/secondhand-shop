@@ -8,10 +8,19 @@ export const getOrderList = (params) => {
   })
 }
 
-// 发货还是取消订单
+// 修改订单
 export const orderEdit = (data) => {
   return request({
     url: '/order/edit',
+    method: 'post',
+    data,
+  })
+}
+
+// 取消订单
+export const orderCancel = (data) => {
+  return request({
+    url: '/order/cancel',
     method: 'post',
     data,
   })

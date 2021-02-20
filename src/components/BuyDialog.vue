@@ -53,7 +53,9 @@
           <el-button v-else-if="scope.row.state == 3" size="mini" type="success" disabled
             >交易完成</el-button
           >
-          <el-button v-else size="mini" type="warning">取消订单</el-button>
+          <el-button v-else size="mini" type="warning" @click="handleCancel(scope.row)"
+            >取消订单</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -65,7 +67,7 @@
 
 <script>
 import { getBuyshopList } from "@/api/user/buyShop";
-import { orderEdit } from "@/api/order";
+import { orderEdit, orderCancel } from "@/api/order";
 
 import { mapGetters } from "vuex";
 import { methodMap, sellStateMap } from "@/constant";
@@ -133,6 +135,16 @@ export default {
       });
       this.$message.success("确认收货成功");
       this.getList();
+    },
+    // 取消订单
+    async handleCancel({ sid }) {
+      await orderCancel({
+        sid,
+        uid: this.uid,
+      });
+      this.$message.success("取消订单成功");
+      this.getList();
+      // this.handleClose();
     },
   },
 };

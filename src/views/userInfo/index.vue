@@ -145,10 +145,28 @@ export default {
       this.formData[key] = this.infoData[key];
       this.infoObj[key] = false;
     },
+    // 手机号校验
+    checkPhone(phone) {
+      if (!/^1[3456789]d{9}$/.test(phone)) {
+        alert("手机号码有误，请重填");
+        return false;
+      } else {
+        return true;
+      }
+    },
     async onSubmit(key) {
       if (key === "username" && !this.formatUsername(this.formData[key])) {
         return;
       }
+      if (key === "phone" && !checkPhone(this.formData[key])) {
+        return;
+      }
+
+      if (key === "sno" && `${this.formData[key]}`.length < 9) {
+        this.$message.warning("请输入九位学号");
+        return;
+      }
+
       this.infoObj[key] = false;
       await userEdit(this.formData);
       this.getInit();

@@ -1,7 +1,7 @@
 export const pro_token = "pro_token"; // token变量
 
-export const apiUrl = `http://121.4.113.48:3333`;
-// export const apiUrl = `http://127.0.0.1:3333`;
+// export const apiUrl = `http://121.4.113.48:3333`;
+export const apiUrl = `http://127.0.0.1:3333`;
 // 支付方式map
 export const methodMap = {
   0: '货到付款',

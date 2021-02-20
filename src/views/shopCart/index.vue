@@ -6,8 +6,10 @@
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange"
+      :row-class-name="tableRowClassName"
     >
-      <el-table-column type="selection" width="55"> </el-table-column>
+      <el-table-column type="selection" width="55" align="center" :selectable="checkboxT">
+      </el-table-column>
       <el-table-column prop="title" label="商品名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="商品图">
@@ -21,6 +23,13 @@
       </el-table-column>
       <el-table-column prop="price" label="商品金额"> </el-table-column>
       <el-table-column prop="shop_count" label="数量"> </el-table-column>
+      <el-table-column label="是否还有货">
+        <template slot-scope="scope">
+          <div>
+            {{ scope.row.display === 2 ? "卖完啦" : "有货" }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column label="总金额">
         <template slot-scope="scope">
           <div class="price">
@@ -98,6 +107,15 @@ export default {
       const { list = [] } = res || {};
       this.list = list;
     },
+    checkboxT(row) {
+      return row.display !== 2;
+    },
+    tableRowClassName({ row }) {
+      if (row.display === 2) {
+        return "warning-row";
+      }
+      return "success-row";
+    },
     handleSelectionChange(val) {
       let total_price = 0;
       val.forEach((item) => {
@@ -165,6 +183,13 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.el-table .warning-row {
+  background: oldlace;
+}
+
+.el-table .success-row {
+  background: #f0f9eb;
+}
 .shop-cart {
   margin-top: 40px;
   padding: 0 100px;
