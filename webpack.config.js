@@ -21,8 +21,8 @@ const devServer = {
 }
 
 module.exports = {
-  // mode: "development",
-  mode: "production",
+  mode: "development",
+  // mode: "production",
   entry: {
     main: resolve(__dirname, 'src/main.js'), // 入口文件
   },

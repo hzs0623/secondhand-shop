@@ -56,8 +56,8 @@ export default {
     return {
       imgLogin,
       form: {
-        username: "huangzesi",
-        password: "123456",
+        username: "",
+        password: "",
       },
     };
   },

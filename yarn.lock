@@ -379,14 +379,7 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.12.13"
 
-"@babel/plugin-syntax-dynamic-import@^7.8.0":
-  version "7.8.3"
-  resolved "https://registry.npmjs.org/@babel/plugin-syntax-dynamic-import/-/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
-  integrity sha512-5gdGbFon+PszYzqs83S3E5mpi7/y/8M9eC90MRTZfduQOYW76ig6SOSPNe41IG5LoP3FGBn2N0RjVDSQiS94kQ==
-  dependencies:
-    "@babel/helper-plugin-utils" "^7.8.0"
-
-"@babel/plugin-syntax-dynamic-import@^7.8.3":
+"@babel/plugin-syntax-dynamic-import@^7.8.0", "@babel/plugin-syntax-dynamic-import@^7.8.3":
   version "7.8.3"
   resolved "https://registry.npm.taobao.org/@babel/plugin-syntax-dynamic-import/download/@babel/plugin-syntax-dynamic-import-7.8.3.tgz#62bf98b2da3cd21d626154fc96ee5b3cb68eacb3"
   integrity sha1-Yr+Ysto80h1iYVT8lu5bPLaOrLM=
@@ -3233,10 +3226,10 @@ http-errors@~1.7.2:
     statuses ">= 1.5.0 < 2"
     toidentifier "1.0.0"
 
-http-optimize@^0.0.6:
-  version "0.0.6"
-  resolved "https://registry.npmjs.org/http-optimize/-/http-optimize-0.0.6.tgz#bcaccad40226793d9ee81ba1d83434a75b06b71c"
-  integrity sha512-lGzyEvODkTAo5OuUldFOTCxANeIYTbzyVdGRZrteB6Hge2g+qYwqcqg1Xnf2hf/8oP1JuWLdUavp9qIHixuacA==
+http-optimize@^0.0.8:
+  version "0.0.8"
+  resolved "https://registry.npm.taobao.org/http-optimize/download/http-optimize-0.0.8.tgz#e7975701d19b3e0a35eca6195f679f79f11d7edf"
+  integrity sha1-55dXAdGbPgo17KYZX2efefEdft8=
   dependencies:
     babel-preset-env "^1.7.0"
     ts-loader "^8.0.14"

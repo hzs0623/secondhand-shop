@@ -6,6 +6,9 @@ export const getMap = (params) => {
     url: '/init/map',
     method: 'get',
     params,
+    cache: {
+      h: 1
+    }
   })
 }
 
@@ -15,6 +18,9 @@ export const getUserMap = (params) => {
     url: '/init/user/map',
     method: 'get',
     params,
+    cache: {
+      h: 1
+    }
   })
 }
 
