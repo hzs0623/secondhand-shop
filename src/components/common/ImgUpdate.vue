@@ -40,6 +40,7 @@
 <script>
 import { apiUrl } from "@/constant";
 import { mapGetters } from "vuex";
+import { uploadSdk } from "@/sdk";
 
 export default {
   computed: {
@@ -71,7 +72,7 @@ export default {
       this.isImage = true;
     },
     Upload(file) {
-      this.$upload(file.file)
+      uploadSdk(file.file)
         .then((imageUrl) => {
           // 返回上传成功的地址
           this.$emit("success", imageUrl);

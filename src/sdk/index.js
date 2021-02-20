@@ -14,7 +14,7 @@ const keyBase = `shop/image`;  // 上传文件 路径
 /**
  * 请求体
  */
-export const upload = async (fileObject) => {
+export const uploadSdk = async (fileObject) => {
   const cos = new COS({
     getAuthorization: async function (_, callback) {
       // 异步获取临时密钥

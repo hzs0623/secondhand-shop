@@ -4,7 +4,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin'); // 插件必须要
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 将css 打包为一个文件
-const webpack = require('webpack');
 
 const htmlPluginConfig = {
   title: '二手交易平台',
@@ -22,16 +21,22 @@ const devServer = {
 }
 
 module.exports = {
-  mode: "development",
-  // mode: "production",
+  // mode: "development",
+  mode: "production",
   entry: {
-    main: resolve(__dirname, 'src/main.js')
+    main: resolve(__dirname, 'src/main.js'), // 入口文件
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all'
+    }
   },
   devtool: "inline-source-map", // 跟踪错误信息
   devServer,
   output: {
-    filename: 'main.js',
     path: resolve(__dirname, 'dist'),
+    filename: 'js/[name].[hash].js',
+    publicPath: '/'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json', '.css', '.less'],
@@ -90,12 +95,9 @@ module.exports = {
     new BundleAnalyzerPlugin(),
     // 剥离CSS文件
     new MiniCssExtractPlugin({
-      filename: "[name].[chunkhash:8].css",
-      chunkFilename: "[id].css"
-    }),
-
-    new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 15 // Minimum number of characters
+      filename: 'css/[name].[hash].css',
+      // filename: "css/[name].[chunkhash:8].css",
+      // chunkFilename: "[id].css"
     }),
   ],
   // 不打包 使用cdn
