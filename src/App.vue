@@ -19,7 +19,7 @@ export default {
 @import "Style/core/normalize";
 @import "Style/color";
 .app {
-  min-width: 1200px;
+  min-width: 800px;
 }
 #nprogress .bar {
   background: @color-primary; //进度条颜色

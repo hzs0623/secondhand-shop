@@ -6,9 +6,8 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 将css 打包为一个文件
 
 const htmlPluginConfig = {
-  title: '二手交易平台',
-  template: resolve(__dirname, 'html/index.html'),
-  favicon: resolve(__dirname, 'html/favicon.ico')
+  title: '淘金商城，跳蚤市场-干饭人',
+  template: resolve(__dirname, 'html/index.html')
 }
 
 const devServer = {
@@ -21,8 +20,8 @@ const devServer = {
 }
 
 module.exports = {
-  mode: "development",
-  // mode: "production",
+  // mode: "development",
+  mode: "production",
   entry: {
     main: resolve(__dirname, 'src/main.js'), // 入口文件
   },

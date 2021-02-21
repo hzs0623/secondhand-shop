@@ -29,7 +29,7 @@
         <el-input type="textarea" v-model="formData.information"></el-input>
       </el-form-item>
       <el-form-item label="分类" prop="sort">
-        <el-select v-model="formData.sort" placeholder="请选择商品成色">
+        <el-select v-model="formData.sort" placeholder="请选择分类">
           <el-option
             v-for="(item, key) in sort_map"
             :key="key"

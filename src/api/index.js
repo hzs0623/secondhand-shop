@@ -3,6 +3,7 @@ import { handleResponse, handleRequest } from './utils';
 import { apiUrl } from '@/constant';
 import { getRequest, HttpResponse, httpError } from 'http-optimize';
 import { loadingState } from "@/libs/loading";
+import { ENV } from '@/constant';
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -30,6 +31,7 @@ service.interceptors.response.use(
 )
 
 export default getRequest(service, {
+  env: ENV,
   responseCache: (data) => {
     return data.data
   }
