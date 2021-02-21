@@ -32,7 +32,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .page-comp {
   margin-top: 40px;
   display: flex;

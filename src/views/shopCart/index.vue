@@ -191,11 +191,12 @@ export default {
         }
 
         const shopList = this.tableData.map((item) => {
-          const { shop_count, id: sid } = item;
+          const { shop_count, id: sid, uid: vendor_uid } = item;
           return {
             shop_count,
             sid,
             state: 1,
+            vendor_uid, // 商家uid
           };
         });
         // 结算

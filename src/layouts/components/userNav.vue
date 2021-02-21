@@ -3,7 +3,7 @@
     <div class="title" @click="onShow">
       {{ user.user }} <i class="el-icon-arrow-down"></i>
     </div>
-    <ul v-show="show">
+    <ul v-show="show" class="login-nav-ul">
       <li @click="getUserInfo">个人信息</li>
       <li @click="dialogVisible = true">已买商品</li>
       <li @click="sellState = true">出售订单</li>
@@ -64,7 +64,7 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .login-nav {
   height: 100%;
   display: flex;
@@ -77,7 +77,7 @@ export default {
       color: #589ef8;
     }
   }
-  ul {
+  .login-nav-ul {
     width: 100%;
     position: absolute;
     top: 30px;
@@ -90,7 +90,6 @@ export default {
     border: 1px solid #ebeef5;
     border-radius: 4px;
     box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
-
     li {
       text-align: center;
       line-height: 36px;

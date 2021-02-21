@@ -32,7 +32,7 @@
           <div>
             <div>用户名：{{ getUsername(scope.row.buy_uid) }}</div>
             <div>联系电话：{{ scope.row.phone }}</div>
-            <div>收货地址：{{ scope.row.shippin_address }}</div>
+            <div>收货地址：{{ scope.row.shipping_address }}</div>
           </div>
         </template>
       </el-table-column>
@@ -58,6 +58,14 @@
         </template>
       </el-table-column>
     </el-table>
+
+    <Page
+      :curPage="curPage"
+      :pageSize="pageSize"
+      :total="total"
+      @handleChange="handleChange"
+    />
+
     <span slot="footer" class="dialog-footer">
       <el-button @click="handleClose">close</el-button>
     </span>
@@ -68,6 +76,7 @@
 import { getOrderList, orderEdit, orderCancel } from "@/api/order";
 import { mapGetters } from "vuex";
 import { methodMap, sellStateMap } from "@/constant";
+import Page from "@/components/common/Page";
 
 export default {
   name: "buy-shop-list",
@@ -76,6 +85,9 @@ export default {
   },
   computed: {
     ...mapGetters("global", ["uid", "username_map"]),
+  },
+  components: {
+    Page,
   },
   watch: {
     sellState(newVal) {
@@ -91,6 +103,7 @@ export default {
       sellStateMap,
       pageSize: 5,
       curPage: 1,
+      total: 0,
     };
   },
   methods: {
@@ -100,8 +113,9 @@ export default {
         pageSize: this.pageSize,
         curPage: this.curPage,
       });
-      const { list = [] } = res;
+      const { list = [], total = 0 } = res;
       this.list = list;
+      this.total = total;
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state === 1) {
@@ -116,6 +130,10 @@ export default {
     },
     handleClose() {
       this.$emit("close");
+    },
+    handleChange(page) {
+      this.curPage = page;
+      this.getList();
     },
     // 发货
     async handleEdit({ buy_uid: uid, sid }, state) {
