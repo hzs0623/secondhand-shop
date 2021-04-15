@@ -16,7 +16,11 @@
           <!-- 用户名 -->
           <div class="user-warp">
             <span>用户名</span>
-            <input type="text" v-model="form.username" placeholder="请输入注册用户名" />
+            <input
+              type="text"
+              v-model="form.username"
+              placeholder="请输入注册用户名"
+            />
           </div>
           <!-- 密码 -->
           <div class="user-warp">
@@ -44,7 +48,9 @@
 
         <!-- 跳转注册 -->
         <div class="rigister">
-          已有账号，前往<el-link type="primary" @click="handleLogin">登陆</el-link>
+          已有账号，前往<el-link type="primary" @click="handleLogin"
+            >登陆</el-link
+          >
         </div>
       </div>
     </div>
@@ -52,40 +58,40 @@
 </template>
 
 <script>
-import imgLogin from "@/assets/images/register.png";
-import { register, userEdit } from "@/api/user";
-import format from "../mixins";
+import { register, userEdit } from "@/api/user"
+import format from "../mixins"
 
 export default {
   name: "register-page",
   mixins: [format],
   data() {
     return {
-      imgLogin,
+      imgLogin:
+        "https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/home/register.png",
       form: {
         username: "",
         password: "",
       },
       passwords: "",
-    };
+    }
   },
   methods: {
     async handleRegister() {
-      if (!this.formValid(this.form)) return;
+      if (!this.formValid(this.form)) return
       if (!this.passwords.trim() || this.passwords !== this.form.password) {
-        this.$message.warning("两次密码不一致");
-        return;
+        this.$message.warning("两次密码不一致")
+        return
       }
-      const res = await register(this.form);
-      this.$message.success("注册成功");
+      const res = await register(this.form)
+      this.$message.success("注册成功")
       // 跳转到登陆界面
-      this.handleLogin();
+      this.handleLogin()
     },
     handleLogin() {
-      window.location.replace("/#/login");
+      window.location.replace("/#/login")
     },
   },
-};
+}
 </script>
 <style lang="less" scoped>
 @import "./index";

@@ -1,6 +1,9 @@
 <template>
   <div class="not-content">
-    <img :src="imgLogin" alt="" />
+    <img
+      src="https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/home/notContent.png"
+      alt=""
+    />
     <el-link type="primary" :href="`/#/publish/shop`"
       >没有发布任何商品，来发布你闲置物品吧</el-link
     >
@@ -8,16 +11,9 @@
 </template>
 
 <script>
-import imgLogin from "@/assets/images/notContent.png";
-
 export default {
   name: "not-content",
-  data() {
-    return {
-      imgLogin,
-    };
-  },
-};
+}
 </script>
 <style lang="less" scoped>
 .not-content {

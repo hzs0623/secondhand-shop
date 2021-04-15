@@ -2,7 +2,10 @@
   <div class="login-page">
     <div class="content">
       <div class="img">
-        <img :src="imgLogin" alt="login" />
+        <img
+          src="https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/home/login.png"
+          alt="login"
+        />
       </div>
       <div class="info">
         <h4 class="title">
@@ -16,7 +19,11 @@
           <!-- 用户名 -->
           <div class="user-warp">
             <span>用户名</span>
-            <input type="text" v-model="form.username" placeholder="请输入用户名" />
+            <input
+              type="text"
+              v-model="form.username"
+              placeholder="请输入用户名"
+            />
           </div>
           <!-- 密码 -->
           <div class="user-warp">
@@ -36,7 +43,9 @@
 
         <!-- 跳转注册 -->
         <div class="rigister">
-          没有账号，前往<el-link type="primary" @click="handleRegister">注册</el-link>
+          没有账号，前往<el-link type="primary" @click="handleRegister"
+            >注册</el-link
+          >
         </div>
       </div>
     </div>
@@ -44,38 +53,36 @@
 </template>
 
 <script>
-import imgLogin from "@/assets/images/login.png";
-import { login } from "@/api/user";
-import { pro_token } from "@/constant";
-import format from "../mixins";
+import { login } from "@/api/user"
+import { pro_token } from "@/constant"
+import format from "../mixins"
 
 export default {
   name: "login-page",
   mixins: [format],
   data() {
     return {
-      imgLogin,
       form: {
         username: "",
         password: "",
       },
-    };
+    }
   },
   methods: {
     handleRegister() {
-      window.location.replace("/#/register");
+      window.location.replace("/#/register")
     },
     // 登陆
     async onLogin() {
-      if (!this.formValid(this.form)) return;
-      const res = await login(this.form);
-      this.$message.success("登陆成功！");
+      if (!this.formValid(this.form)) return
+      const res = await login(this.form)
+      this.$message.success("登陆成功！")
       // 存入本地
-      localStorage.setItem(pro_token, JSON.stringify(res));
-      this.$router.replace("/");
+      localStorage.setItem(pro_token, JSON.stringify(res))
+      this.$router.replace("/")
     },
   },
-};
+}
 </script>
 <style lang="less" scoped>
 @import "./index";

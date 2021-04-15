@@ -1,21 +1,17 @@
 <template>
   <div class="error-page">
-    <img :src="imgLogin" alt="" />
+    <img
+      src="https://daes-1251985304.cos.ap-shanghai.myqcloud.com/shop/home/404.png"
+      alt=""
+    />
     <el-link type="primary" :href="'/'">返回主页</el-link>
   </div>
 </template>
 
 <script>
-import imgLogin from "@/assets/images/404.png";
-
 export default {
   name: "error-page",
-  data() {
-    return {
-      imgLogin,
-    };
-  },
-};
+}
 </script>
 <style lang="less" scoped>
 .error-page {
