@@ -1,1 +1,1 @@
-module.exports = file => () => import('@/views/' + file) // 按需加载
+module.exports = (file) => () => import("@/views/" + file) // 按需加载
