@@ -5,7 +5,11 @@
     width="90%"
     :before-close="handleClose"
   >
-    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
+    <el-table
+      :data="list"
+      style="width: 100%"
+      :row-class-name="tableRowClassName"
+    >
       <el-table-column prop="title" label="商品名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="商品图">
@@ -21,9 +25,9 @@
         <template slot-scope="scope">
           <div>
             <div>商品金额: {{ scope.row.price }}</div>
-            <div>交易状态: {{ sellStateMap[scope.row.state] }}</div>
+            <div>交易状态: {{ sell_state_map[scope.row.state] }}</div>
             <div>购买数量: {{ scope.row.shop_count }}</div>
-            <div>支付方式: {{ methodMap[scope.row.buy_method] }}</div>
+            <div>支付方式: {{ buy_type[scope.row.buy_method] }}</div>
           </div>
         </template>
       </el-table-column>
@@ -45,7 +49,11 @@
             @click="handleEdit(scope.row, 2)"
             >发货</el-button
           >
-          <el-button v-if="scope.row.state == 3" size="mini" type="success" disabled
+          <el-button
+            v-if="scope.row.state == 3"
+            size="mini"
+            type="success"
+            disabled
             >交易完成</el-button
           >
           <el-button
@@ -73,10 +81,9 @@
 </template>
 
 <script>
-import { getOrderList, orderEdit, orderCancel } from "@/api/order";
-import { mapGetters } from "vuex";
-import { methodMap, sellStateMap } from "@/constant";
-import Page from "@/components/common/Page";
+import { getOrderList, orderEdit, orderCancel } from "@/api/order"
+import { mapGetters } from "vuex"
+import Page from "@/components/common/Page"
 
 export default {
   name: "buy-shop-list",
@@ -84,7 +91,12 @@ export default {
     sellState: false,
   },
   computed: {
-    ...mapGetters("global", ["uid", "username_map"]),
+    ...mapGetters("global", [
+      "uid",
+      "username_map",
+      "sell_state_map",
+      "buy_type",
+    ]),
   },
   components: {
     Page,
@@ -92,19 +104,17 @@ export default {
   watch: {
     sellState(newVal) {
       if (newVal) {
-        this.getList();
+        this.getList()
       }
     },
   },
   data() {
     return {
       list: [],
-      methodMap,
-      sellStateMap,
       pageSize: 5,
       curPage: 1,
       total: 0,
-    };
+    }
   },
   methods: {
     async getList() {
@@ -112,28 +122,28 @@ export default {
         uid: this.uid,
         pageSize: this.pageSize,
         curPage: this.curPage,
-      });
-      const { list = [], total = 0 } = res;
-      this.list = list;
-      this.total = total;
+      })
+      const { list = [], total = 0 } = res
+      this.list = list
+      this.total = total
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state === 1) {
-        return "warning-row";
+        return "warning-row"
       } else if (row.state === 3) {
-        return "success-row";
+        return "success-row"
       }
-      return "";
+      return ""
     },
     onSkip(url) {
-      window.open(url);
+      window.open(url)
     },
     handleClose() {
-      this.$emit("close");
+      this.$emit("close")
     },
     handleChange(page) {
-      this.curPage = page;
-      this.getList();
+      this.curPage = page
+      this.getList()
     },
     // 发货
     async handleEdit({ buy_uid: uid, sid }, state) {
@@ -141,30 +151,30 @@ export default {
         uid,
         sid,
         state,
-      });
-      this.$message.success("发货成功！");
-      this.getList();
+      })
+      this.$message.success("发货成功！")
+      this.getList()
     },
     getUsername(uid) {
-      let username = "";
+      let username = ""
       this.username_map.some((item) => {
         if (item.uid == uid) {
-          username = item.username;
-          return true;
+          username = item.username
+          return true
         }
-      });
-      return username;
+      })
+      return username
     },
     // 取消订单
     async handleCancel({ sid }) {
       await orderCancel({
         sid,
         uid: this.uid,
-      });
-      this.$message.success("取消订单成功");
-      this.getList();
+      })
+      this.$message.success("取消订单成功")
+      this.getList()
     },
   },
-};
+}
 </script>
 <style lang="less"></style>

@@ -5,7 +5,11 @@
     width="80%"
     :before-close="handleClose"
   >
-    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
+    <el-table
+      :data="list"
+      style="width: 100%"
+      :row-class-name="tableRowClassName"
+    >
       <el-table-column prop="title" label="商品名" show-overflow-tooltip>
       </el-table-column>
       <el-table-column label="商品图">
@@ -29,14 +33,14 @@
       <el-table-column label="交易状态">
         <template slot-scope="scope">
           <div>
-            {{ sellStateMap[scope.row.state] }}
+            {{ sell_state_map[scope.row.state] }}
           </div>
         </template>
       </el-table-column>
       <el-table-column prop="buy_method" label="支付方式">
         <template slot-scope="scope">
           <div>
-            {{ methodMap[scope.row.buy_method] }}
+            {{ buy_type[scope.row.buy_method] }}
           </div>
         </template>
       </el-table-column>
@@ -50,10 +54,18 @@
             @click="handleEdit(scope.row, 3)"
             >确认收货</el-button
           >
-          <el-button v-else-if="scope.row.state == 3" size="mini" type="success" disabled
+          <el-button
+            v-else-if="scope.row.state == 3"
+            size="mini"
+            type="success"
+            disabled
             >交易完成</el-button
           >
-          <el-button v-else size="mini" type="warning" @click="handleCancel(scope.row)"
+          <el-button
+            v-else
+            size="mini"
+            type="warning"
+            @click="handleCancel(scope.row)"
             >取消订单</el-button
           >
         </template>
@@ -66,11 +78,10 @@
 </template>
 
 <script>
-import { getBuyshopList } from "@/api/user/buyShop";
-import { orderEdit, orderCancel } from "@/api/order";
+import { getBuyshopList } from "@/api/user/buyShop"
+import { orderEdit, orderCancel } from "@/api/order"
 
-import { mapGetters } from "vuex";
-import { methodMap, sellStateMap } from "@/constant";
+import { mapGetters } from "vuex"
 
 export default {
   name: "buy-shop-list",
@@ -78,53 +89,56 @@ export default {
     dialogVisible: false,
   },
   computed: {
-    ...mapGetters("global", ["uid", "username_map"]),
+    ...mapGetters("global", [
+      "uid",
+      "username_map",
+      "sell_state_map",
+      "buy_type",
+    ]),
   },
   watch: {
     dialogVisible(newVal) {
       if (newVal) {
-        this.getList();
+        this.getList()
       }
     },
   },
   data() {
     return {
       list: [],
-      methodMap,
-      sellStateMap,
-    };
+    }
   },
   methods: {
     async getList() {
       const res = await getBuyshopList({
         uid: this.uid,
-      });
-      const { list = [] } = res;
-      this.list = list;
+      })
+      const { list = [] } = res
+      this.list = list
     },
     tableRowClassName({ row, rowIndex }) {
       if (row.state === 1) {
-        return "success-row";
+        return "success-row"
       } else if (row.state === 3) {
-        return "warning-row";
+        return "warning-row"
       }
-      return "";
+      return ""
     },
     onSkip(url) {
-      window.open(url);
+      window.open(url)
     },
     handleClose() {
-      this.$emit("close");
+      this.$emit("close")
     },
     getUsername(uid) {
-      let username = "";
+      let username = ""
       this.username_map.some((item) => {
         if (item.uid == uid) {
-          username = item.username;
-          return true;
+          username = item.username
+          return true
         }
-      });
-      return username;
+      })
+      return username
     },
     // 发货
     async handleEdit({ sid }, state) {
@@ -132,20 +146,20 @@ export default {
         uid: this.uid,
         sid,
         state,
-      });
-      this.$message.success("确认收货成功");
-      this.getList();
+      })
+      this.$message.success("确认收货成功")
+      this.getList()
     },
     // 取消订单
     async handleCancel({ sid }) {
       await orderCancel({
         sid,
         uid: this.uid,
-      });
-      this.$message.success("取消订单成功");
-      this.getList();
+      })
+      this.$message.success("取消订单成功")
+      this.getList()
       // this.handleClose();
     },
   },
-};
+}
 </script>

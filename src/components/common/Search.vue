@@ -2,9 +2,10 @@
   <div class="search-comp-page">
     <input
       class="input"
-      placeholder="请输入搜索内容🔍"
-      type="text"
+      placeholder="输入并搜索..."
+      type="search"
       v-model="value"
+      autofocus="autofocus"
       @keyup.enter="onSearch"
     />
     <div class="btn" @click="onSearch"><i class="el-icon-search"></i></div>
@@ -23,7 +24,7 @@
 </template>
 
 <script>
-import { searchShop } from "@/api/shop";
+import { searchShop } from "@/api/shop"
 
 export default {
   name: "search-comp-page",
@@ -32,30 +33,30 @@ export default {
       value: "",
       list: [],
       isUl: false,
-    };
+    }
   },
   watch: {
     value(newVal) {
-      this.value = newVal.trim();
+      this.value = newVal.trim()
     },
   },
   methods: {
     async onSearch() {
       if (!this.value) {
-        this.$message.warning("请输入搜索内容");
-        return;
+        this.$message.warning("请输入搜索内容")
+        return
       }
       const res = await searchShop({
         title: this.value,
-      });
-      const { list = [] } = res || {};
-      this.list = list;
-      this.isUl = true;
+      })
+      const { list = [] } = res || {}
+      this.list = list
+      this.isUl = true
     },
     navShow(e) {
-      const map = ["btn", "input", "el-icon-search"];
+      const map = ["btn", "input", "el-icon-search"]
       if (this.isUl || map.indexOf(e.target.className) === -1) {
-        this.isUl = false;
+        this.isUl = false
       }
     },
     handleDetails(item) {
@@ -64,16 +65,16 @@ export default {
         query: {
           id: item.id,
         },
-      });
+      })
     },
   },
   mounted() {
-    document.addEventListener("click", this.navShow);
+    document.addEventListener("click", this.navShow)
   },
   beforeDestroy() {
-    document.removeEventListener("click", this.navShow);
+    document.removeEventListener("click", this.navShow)
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .search-comp-page {
@@ -85,21 +86,21 @@ export default {
   align-items: center;
   position: relative;
   .input {
-    font-size: 14px;
+    font-size: 12px;
     display: inline-block;
     width: calc(100% - 40px);
     height: 100%;
     line-height: inherit;
     border: 0 none;
     outline: 0;
-    background: #f5f6f7;
-    color: #222226;
+    background: #fff;
     vertical-align: top;
     text-indent: 16px;
     border: 1px solid #e8e8ed;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     border-radius: 4px 0 0 4px;
+    color: #555;
     &:focus {
       border-color: #589ef8;
     }

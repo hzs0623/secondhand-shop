@@ -27,18 +27,18 @@
 </template>
 
 <script>
-import User from "./userNav";
-import { getToken } from "@/utils";
-import { mapActions } from "vuex";
-import { getMap, getUserMap } from "@/api/init";
-import Search from "@/components/common/Search";
+import User from "./userNav"
+import { getToken } from "@/utils"
+import { mapActions } from "vuex"
+import { getMap, getUserMap } from "@/api/init"
+import Search from "@/components/common/Search"
 
 const menuConfig = {
   1: "/index",
   2: "/my/shoping",
   3: "/publish/shop",
   4: "/shop/cart",
-};
+}
 export default {
   name: "header-comp",
   data() {
@@ -52,17 +52,17 @@ export default {
       },
       menuConfig,
       activeIndex: this.getMenuIndex(),
-    };
+    }
   },
   watch: {
-    $route: function (newVal) {
-      const { path } = newVal;
+    $route: function(newVal) {
+      const { path } = newVal
       Object.keys(menuConfig).forEach((key) => {
-        const item = menuConfig[key];
+        const item = menuConfig[key]
         if (item === path) {
-          this.activeIndex = key;
+          this.activeIndex = key
         }
-      });
+      })
     },
   },
   components: {
@@ -72,39 +72,40 @@ export default {
   methods: {
     ...mapActions("global", ["setUserInfo", "setMapData"]),
     async getInit() {
-      const data = getToken();
-      this.setUserInfo(data); // 个人信息
-      this.user = data;
-      const sort_map = await getMap();
-      const userMap = await getUserMap();
+      const data = getToken()
+      this.setUserInfo(data) // 个人信息
+      this.user = data
+      const initMap = await getMap()
+      const userMap = await getUserMap()
       this.setMapData({
-        ...sort_map,
+        ...initMap,
         ...userMap,
-      }); // 映射map
+      }) // 映射map
     },
     getMenuIndex() {
-      let i = "1";
+      let i = "1"
       for (let key in menuConfig) {
-        const curPath = menuConfig[key];
+        const curPath = menuConfig[key]
         if (curPath == this.$route.path) {
-          i = key;
+          i = key
         }
       }
-      return i;
+      return i
     },
     onSkip(url) {
-      window.location.replace(url);
+      window.location.replace(url)
     },
     handleSelect(index) {
-      const path = menuConfig[index];
-      this.activeIndex = index;
-      this.$router.push(path);
+      const path = menuConfig[index]
+      this.activeIndex = index
+      this.$router.push(path)
     },
   },
+
   mounted() {
-    this.getInit();
+    this.getInit()
   },
-};
+}
 </script>
 <style lang="less" scoped>
 .header-comp {

@@ -13,12 +13,16 @@
         ></el-input-number>
       </el-form-item>
       <el-form-item label="商品数量" prop="count">
-        <el-input-number v-model="formData.count" :min="1" :max="99"></el-input-number>
+        <el-input-number
+          v-model="formData.count"
+          :min="1"
+          :max="99"
+        ></el-input-number>
       </el-form-item>
       <el-form-item label="商品成色" prop="level">
         <el-select v-model="formData.level" placeholder="请选择商品成色">
           <el-option
-            v-for="(item, key) in levelMap"
+            v-for="(item, key) in level_map"
             :key="key"
             :label="item"
             :value="key - 0"
@@ -51,8 +55,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import ImageUpdate from "./common/ImgUpdate";
+import { mapGetters } from "vuex"
+import ImageUpdate from "./common/ImgUpdate"
 
 export default {
   name: "shop-form-comp",
@@ -63,77 +67,67 @@ export default {
     ImageUpdate,
   },
   computed: {
-    ...mapState("global", ["mapData"]),
-    sort_map() {
-      return this.mapData.sort_map;
-    },
+    ...mapGetters("global", ["level_map", "sort_map"]),
   },
   data() {
     return {
-      levelMap: {},
       rules: {
         title: [{ required: true, message: "请输入商品标题", trigger: "blur" }],
         price: [{ required: true, message: "请输入商品价格", trigger: "blur" }],
         count: [{ required: true, message: "请输入商品数量", trigger: "blur" }],
-        information: [{ required: true, message: "请输入商品详情", trigger: "blur" }],
-        level: [{ required: true, message: "请选择商品成色", trigger: "change" }],
-        sort: [{ required: true, message: "请选择商品分类", trigger: "change" }],
+        information: [
+          { required: true, message: "请输入商品详情", trigger: "blur" },
+        ],
+        level: [
+          { required: true, message: "请选择商品成色", trigger: "change" },
+        ],
+        sort: [
+          { required: true, message: "请选择商品分类", trigger: "change" },
+        ],
       },
       formData: this.getInit() || {},
-    };
+    }
   },
   methods: {
     getInit() {
       let obj = {
         count: 1,
         price: 0.01,
-      };
+      }
       for (let key in this.form) {
-        obj[key] = this.form[key];
+        obj[key] = this.form[key]
       }
-      return obj;
-    },
-    getLevelMap() {
-      let obj = {
-        10: "全新",
-      };
-      for (let i = 1; i <= 9; i++) {
-        obj[i] = `${i}成新`;
-      }
-      this.levelMap = obj;
+      return obj
     },
     // 图片上传成功
     onSuccess(imageUrl) {
       this.$emit("submit", {
         ...this.formData,
         image: imageUrl,
-      });
+      })
     },
     onSubmit() {
       this.$refs.form.validate((valid) => {
-        if (!valid) return this.$message.warning("完善表单");
+        if (!valid) return this.$message.warning("完善表单")
         // 修改
         if (this.formData.id && !this.$refs.updateImg.isImage) {
-          this.$emit("submit", this.formData);
+          this.$emit("submit", this.formData)
         } else {
           // 新增
           if (!this.$refs.updateImg.isImage)
-            return this.$message.warning("请上传商品图片");
-          this.$refs.updateImg.submit(); // 提交图片
+            return this.$message.warning("请上传商品图片")
+          this.$refs.updateImg.submit() // 提交图片
         }
-      });
+      })
     },
     onClear() {
-      this.$refs["form"].resetFields();
+      this.$refs["form"].resetFields()
     },
     onClose() {
-      this.$emit("close");
+      this.$emit("close")
     },
   },
-  created() {
-    this.getLevelMap();
-  },
-};
+}
 </script>
 <style lang="less" scoped>
 .form-shop {

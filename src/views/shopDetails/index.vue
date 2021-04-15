@@ -7,7 +7,7 @@
         </div>
         <ul>
           <li><span>商品名称：</span> {{ shopping.title }}</li>
-          <li><span>成色：</span> {{ shopping.level }}成</li>
+          <li><span>成色：</span> {{ level_map[shopping.level] }}</li>
           <li class="price">
             <span>单价：</span> ¥{{ shopping.price ? shopping.price : "0" }}
           </li>
@@ -38,7 +38,9 @@
           <el-button type="primary" @click="handleEdit" class="el-icon-edit">{{
             shopping.display == 2 ? "卖完啦重新上架" : "修改"
           }}</el-button>
-          <el-button @click="removeShop" class="el-icon-delete">删除商品 </el-button>
+          <el-button @click="removeShop" class="el-icon-delete"
+            >删除商品
+          </el-button>
         </div>
       </div>
     </div>
@@ -60,14 +62,21 @@
             </div>
             <div>
               {{ item.create_time | formatTime
-              }}<span v-if="item.uid == uid" @click="handleDelete(item)">删除</span>
+              }}<span v-if="item.uid == uid" @click="handleDelete(item)"
+                >删除</span
+              >
             </div>
           </div>
           <div class="text">{{ item.content }}</div>
         </li>
       </ul>
       <div class="message-text">
-        <el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="content">
+        <el-input
+          type="textarea"
+          :rows="4"
+          placeholder="请输入内容"
+          v-model="content"
+        >
         </el-input>
       </div>
       <div class="add-message">
@@ -111,10 +120,10 @@ import {
   deleteShopMesg,
   removeShop,
   editShop,
-} from "@/api/shop";
-import { mapGetters } from "vuex";
-import ShopEdit from "./shopEdit";
-import { addShopCart } from "@/api/shop/shopCart";
+} from "@/api/shop"
+import { mapGetters } from "vuex"
+import ShopEdit from "./shopEdit"
+import { addShopCart } from "@/api/shop/shopCart"
 
 export default {
   name: "shop-page",
@@ -126,77 +135,81 @@ export default {
       dialogVisible: false,
       cartState: false, // 购物车状态
       shop_count: 1,
-    };
+    }
   },
   filters: {
     getUsername(uid, map) {
-      let username = "";
+      let username = ""
       Object.keys(map).length &&
         map.some((user) => {
           if (user.uid === uid) {
-            username = user.username;
-            return true;
+            username = user.username
+            return true
           }
-        });
-      return username;
+        })
+      return username
     },
   },
   components: {
     ShopEdit,
   },
   computed: {
-    ...mapGetters("global", ["sort_map", "uid", "username_map"]),
+    ...mapGetters("global", ["sort_map", "uid", "username_map", "level_map"]),
   },
   methods: {
     async getInit() {
-      const id = this.$route.query.id;
-      const res = await getShopItem({ id });
-      this.shopping = res || {};
-      this.getMesgList();
+      const id = this.$route.query.id
+      const res = await getShopItem({ id })
+      this.shopping = res || {}
+      this.getMesgList()
     },
     async getMesgList() {
-      const { id: sid } = this.shopping;
-      const messageData = await getShopMesgList({ sid, curPage: 1, pageSize: 10 });
-      const { list } = messageData || {};
-      this.mesgList = list;
+      const { id: sid } = this.shopping
+      const messageData = await getShopMesgList({
+        sid,
+        curPage: 1,
+        pageSize: 10,
+      })
+      const { list } = messageData || {}
+      this.mesgList = list
     },
     // 发布留言
     async handleAddMesg() {
       if (!this.uid) {
         // 没有登陆提示
-        this.$message.warning("登陆后，可留言");
-        return;
+        this.$message.warning("登陆后，可留言")
+        return
       }
 
-      if (!this.content.trim()) return this.$message.warning("请输入留言内容");
+      if (!this.content.trim()) return this.$message.warning("请输入留言内容")
 
       const res = await addShopMesg({
         content: this.content,
         sid: this.shopping.id,
         uid: this.uid,
-      });
+      })
 
-      this.getMesgList();
-      this.$message.success("添加留言成功");
-      this.content = "";
+      this.getMesgList()
+      this.$message.success("添加留言成功")
+      this.content = ""
     },
     // 添加购物车
     addCart() {
-      this.cartState = true;
+      this.cartState = true
     },
     handleCartClose() {
-      this.cartState = false;
+      this.cartState = false
     },
     // 添加购物车请求🛒
     async onAddShopCart() {
-      this.cartState = false;
+      this.cartState = false
       const res = await addShopCart({
         uid: this.uid,
         sid: this.shopping.id,
         shop_count: this.shop_count,
-      });
-      this.$message.success("加入购物车🛒成功");
-      window.location.replace(`/#/shop/cart`);
+      })
+      this.$message.success("加入购物车🛒成功")
+      window.location.replace(`/#/shop/cart`)
     },
     // 删除留言
     handleDelete(item) {
@@ -206,24 +219,24 @@ export default {
         type: "warning",
       })
         .then(async () => {
-          const { uid, sid, id } = item;
+          const { uid, sid, id } = item
           await deleteShopMesg({
             id,
             uid,
             sid,
-          });
+          })
           this.$message({
             type: "success",
             message: "删除成功!",
-          });
-          this.getMesgList();
+          })
+          this.getMesgList()
         })
         .catch(() => {
           this.$message({
             type: "shopping",
             message: "已取消删除",
-          });
-        });
+          })
+        })
     },
     // 删除商品
     removeShop() {
@@ -236,37 +249,37 @@ export default {
           await removeShop({
             id: this.shopping.id,
             uid: this.uid,
-          });
+          })
           this.$message({
             type: "success",
             message: "删除成功!",
-          });
-          this.$router.push("/");
+          })
+          this.$router.push("/")
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除",
-          });
-        });
+          })
+        })
     },
     handleEdit() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
     },
     onEditClose() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
     },
     async onEditSumbit(form) {
-      const res = await editShop(form);
-      this.$message.success("修改成功");
-      this.onEditClose();
-      this.getInit();
+      const res = await editShop(form)
+      this.$message.success("修改成功")
+      this.onEditClose()
+      this.getInit()
     },
   },
   created() {
-    this.getInit();
+    this.getInit()
   },
-};
+}
 </script>
 <style lang="less" scoped>
 @import "./index.less";

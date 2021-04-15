@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import ShopItem from "@/components/ShopItem";
-import Page from "@/components/common/Page";
-import { getShopList } from "@/api/shop";
-import NotContent from "@/components/common/NotContent";
+import ShopItem from "@/components/ShopItem"
+import Page from "@/components/common/Page"
+import { getShopList } from "@/api/shop"
+import NotContent from "@/components/common/NotContent"
 
 export default {
   name: "main-shop-page",
@@ -33,10 +33,10 @@ export default {
     return {
       list: [],
       total: 0,
-      pageSize: 10,
+      pageSize: 40,
       curPage: 1,
       NotContent: false,
-    };
+    }
   },
   components: {
     ShopItem,
@@ -45,17 +45,17 @@ export default {
   },
   methods: {
     getInit() {
-      this.getList();
+      this.getList()
     },
     async getList() {
       const res = await getShopList({
         pageSize: this.pageSize,
         curPage: this.curPage,
-      });
-      const { list = [], total = 0 } = res || {};
-      this.list = list;
-      this.total = total;
-      this.NotContent = total == 0 && true;
+      })
+      const { list = [], total = 0 } = res || {}
+      this.list = list
+      this.total = total
+      this.NotContent = total == 0 && true
     },
     handleDetails(item) {
       this.$router.push({
@@ -63,30 +63,22 @@ export default {
         query: {
           id: item.id,
         },
-      });
+      })
     },
     handlePage(page) {
-      this.curPage = page;
-      this.getList();
+      this.curPage = page
+      this.getList()
     },
     handleSizeChange(size) {
-      this.pageSize = size;
-      this.getList();
+      this.pageSize = size
+      this.getList()
     },
   },
   created() {
-    this.getInit();
+    this.getInit()
   },
-};
+}
 </script>
 <style lang="less">
-.main-shop-page {
-  .shop-item {
-    display: flex;
-    flex-wrap: wrap;
-    .item {
-      margin: 20px 20px 0 0;
-    }
-  }
-}
+@import url("./index.less");
 </style>
