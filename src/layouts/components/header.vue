@@ -22,6 +22,11 @@
         <el-link @click="onSkip('/#/login')">登陆</el-link>
         <el-link @click="onSkip('/#/register')">注册</el-link>
       </div>
+      <div class="admin-btn">
+        <a href="http://121.4.113.48:9999" target="_blank" rel="进入后台"
+          >进入后台</a
+        >
+      </div>
     </div>
   </div>
 </template>
@@ -124,6 +129,16 @@ export default {
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+
+  .admin-btn {
+    a {
+      color: #ccc;
+      &:hover {
+        text-decoration: underline;
+        color: #689df1;
+      }
+    }
   }
 }
 </style>
